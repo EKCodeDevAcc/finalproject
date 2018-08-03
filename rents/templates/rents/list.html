@@ -1,0 +1,61 @@
+{% extends "rents/layout.html" %}
+
+{% block body %}
+<div class="form-group">
+    <div class="content_item">
+        <h2 id="title_welcome">Welcome, {{ user.username }}</h2>
+        <input id="logout_button" class="btn btn-success" type="button" value="Logout" onclick="location.href = '/logout'"/>
+    </div>
+    <div id="menu">
+        <table id="menu_table">
+            <tr id="menu_table_tr">
+                <td id="menu_table_td">
+                    <a id="menu_button" href="/myOrders">My Orders</a>
+                </td>
+                <td id="menu_table_td">
+                    <a id="menu_button_select" href="/menu">Menu</a>
+                </td>
+                <td id="menu_table_td">
+                    <a id="menu_button" href="/order">Place Order</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="body_content" class="form-group">
+    <div>
+        <h2>List</h2>
+        <div class="body_table">
+            <div class="body_table_content">
+                <!-- List of menus in 3 columns menu name, small price, large price -->
+                <!-- Also separate depends on menu types -->
+                <h4>List of Cars</h4>
+                <div>
+                    <table class="table">
+                        <tr>
+                            <th>Brand</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Daily Price</th>
+                            <th>Size</th>
+                            <th>Details</th>
+                            <th>Status</th>
+                        </tr>
+                        {% for car in cars %}
+                        <tr>
+                            <td>{{ car.car_brand }}</td>
+                            <td>{{ car.car_name }}</td>
+                            <td>{{ car.car_type }}</td>
+                            <td>$ {{ car.car_price }}</td>
+                            <td>{{ car.car_size }}</td>
+                            <td>{{ car.car_detail }}</td>
+                            <td>{{ car.car_status }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

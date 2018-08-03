@@ -1,0 +1,39 @@
+{% extends "rents/layout.html" %}
+
+{% block body %}
+{% if message %}
+    <div>
+        {{ message }}
+    </div>
+{% endif %}
+<div class="form-group">
+    <div class="content_item">
+        <h2 id="title_welcome">Welcome, {{ user.username }}</h2>
+        <input id="logout_button" class="btn btn-success" type="button" value="Logout" onclick="location.href = '/logout'"/>
+    </div>
+    <div id="menu">
+        <!-- Navigators to each pages -->
+        <table id="menu_table">
+            <tr id="menu_table_tr">
+                <td id="menu_table_td">
+                    <a id="menu_button" href="/myOrders">My Orders</a>
+                </td>
+                <td id="menu_table_td">
+                    <a id="menu_button" href="/list">List</a>
+                </td>
+                <td id="menu_table_td">
+                    <a id="menu_button" href="/order">Place Order</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- Simple advertisement at main page -->
+    <div id="datebox">
+        <label for="from">From</label>
+        <input type="text" id="from" name="from">
+        <label for="to">to</label>
+        <input type="text" id="to" name="to">
+        <input class="btn btn-success" type="button" value="Select" onclick="chooseDate()" />
+    </div>
+</div>
+{% endblock %}

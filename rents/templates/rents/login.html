@@ -1,0 +1,24 @@
+{% extends "rents/layout.html" %}
+
+{% block body %}
+<h1>Login</h1>
+{% if message %}
+    <div>
+        {{ message }}
+    </div>
+{% endif %}
+<form action="{% url 'login' %}" method="post">
+    <!-- Basic login form with sign up page link -->
+    {% csrf_token %}
+    <div class="content_item">
+        <input name="username" type="text" placeholder="username"/>
+    </div>
+    <div class="content_item">
+        <input name="password" type="password" placeholder="password"/>
+    </div>
+    <div class="content_item">
+        <input type="submit" value="Login"/>
+        <input type="button" value="Sign Up" onclick="location.href = '/signUp'"/>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,308 @@
+/* Header with welcome and user name */
+#title_welcome {
+    width: 50%;
+    display: block;
+    float: left;
+}
+
+/* Logout button */
+#logout_button {
+    margin-top: 10px;
+    display: block;
+    float: right;
+}
+
+/* Phrase in main page */
+#datebox {
+    margin-top: 60px;
+    display: block;
+    float: left;
+}
+
+/* Menu section with my orders, menu, place order */
+#menu {
+    background-color: #dc3545;
+    border-radius: 15px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 100%;
+    display: block;
+    float: right;
+}
+
+#menu_table {
+   margin: auto;
+   width: 100% !important;
+}
+
+#menu_table_tr {
+    height: 60px;
+    width: 100%;
+    display: block;
+    float: left;
+}
+
+#menu_table_td {
+    width: 33%;
+    display: block;
+    float: left;
+    text-align: center;
+    margin-top: 15px;
+}
+
+#menu_button {
+    color: white;
+    font-weight: bold;
+}
+
+/* Change button's color to green when it is selected */
+#menu_button_select {
+    color: #008605;
+    font-weight: bold;
+}
+
+#body_content {
+    margin-top: 60px;
+}
+
+.body_table_content {
+    margin-bottom: 40px;
+    display: block;
+    float: left;
+    width: 100%;
+}
+
+.body_table_small{
+    width: 33%;
+    display: block;
+    float: left;
+}
+
+/* main content part of menu pages */
+#list_main {
+    width: 100%;
+    height: 700px;
+    display: block;
+    float: left;
+    border-style: solid;
+    border-color: #218838;
+    border-radius: 18px;
+    overflow: auto;
+}
+
+/* main content part of order pages */
+#order_main {
+    width: 70%;
+    height: 700px;
+    display: block;
+    float: left;
+    border-style: solid;
+    border-color: #218838;
+    border-radius: 18px;
+    overflow: auto;
+}
+
+/* my cart part of order pages */
+#order_cart {
+    width: 30%;
+    height: 700px;
+    display: block;
+    float: left;
+    border-style: solid;
+    border-color: #218838;
+    border-radius: 18px;
+    overflow: auto;
+}
+
+/* title of cart */
+#my_order_menu {
+    background-color: #dc3545;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    width: 100%;
+    float: right;
+}
+
+#my_order_td {
+    color: white;
+    font-weight: bold;
+}
+
+/* text of title of cart */
+#order_cart_title {
+    color: white;
+    font-weight: bold;
+    margin-top: 8px;
+    margin-left: 15px;
+    font-size: 25px;
+}
+
+#checkout_button {
+    margin-left: 36%;
+}
+
+/* title of my orders, menu, order pages main content title */
+#order_title, #checkout_title {
+    margin-left: 15px;
+}
+
+/* admin order page order placed title */
+#order_placed_choosen {
+    display: block;
+    float: left;
+    width: 50%;
+}
+
+/* admin order page order delivered title */
+#order_delivered {
+    display: block;
+    float: right;
+    width: 50%;
+    background-color: #e0e0e0;
+}
+
+/* admin order done page order placed title */
+#order_placed {
+    display: block;
+    float: left;
+    width: 50%;
+    background-color: #e0e0e0;
+}
+
+/* admin order done page order delivered title */
+#order_delivered_choosen {
+    display: block;
+    float: right;
+    width: 50%;
+}
+
+/* text of order placed title */
+#order_placed_text {
+    margin-left: 15px;
+}
+
+/* text of order delivered title */
+#order_delivered_text {
+    margin-left: 15px;
+}
+
+/* subtitle of menu types */
+.order_type_list {
+    width: 90%;
+    display: block;
+    float: left;
+    margin-left: 15px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+/* item contents of each items in menu,order */
+.order_item {
+    width: 30%;
+    display: block;
+    float: left;
+    margin-left: 15px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+/* cart list content left side */
+.my_item_list_left {
+    display: block;
+    float: left;
+    width: 70%;
+    margin-left: 15px;
+}
+
+/* cart list content right side */
+.my_item_list_right {
+    display: block;
+    float: right;
+    width: 20%;
+    margin-left: 15px;
+}
+
+/* cart remove button */
+.my_item_remove {
+    display: block;
+    width: 90%;
+    margin-left: 15px;
+}
+
+/* modals for regular pizza, sicilian pizza, subs page, and order details */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+/* modal content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 65%;
+}
+
+/* modal close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* number of toppings message in modal */
+#topping_message {
+    margin-bottom: 20px;
+}
+
+/* total cost text in order detail modal */
+.total_cost {
+    float: right;
+    margin-right: 80px;
+}
+
+#checkout_main {
+    width: 100%;
+    height: 700px;
+    display: block;
+    float: left;
+    border-style: solid;
+    border-color: #218838;
+    border-radius: 18px;
+}
+
+.checkout_item_left {
+    width: 55%;
+    display: block;
+    float: left;
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
+.checkout_item_right {
+    width: 15%;
+    display: block;
+    float: left;
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
+#total_price {
+    text-align: center;
+    margin-top: 50px;
+}
+
+/* order table */
+#all_orders {
+    width: 100%;
+}
