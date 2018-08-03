@@ -36,18 +36,18 @@ $(function() {
 
 //
 function chooseDate(){
-    const start_date = $('#from').datepicker('getDate');
-    const end_date = $('#to').datepicker('getDate');
-    console.log(start_date);
-    console.log(end_date);
+    const start_date = $('#from').datepicker('getDate').toUTCString();
+    const end_date = $('#to').datepicker('getDate').toUTCString();
+
     $.ajax({
-        url: '/list',
+        url: '/searchList',
         data: {
             startdate: start_date,
             enddate: end_date
         },
         success: function(data){
-            location.reload();
+            console.log(data);
+            console.log(typeof data);
         }
     });
 }

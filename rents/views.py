@@ -3,9 +3,10 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.core import serializers
+from django.db.models import Q
 
 import datetime
-from dateutil import parser
 
 from .models import Car, Reservation, ReservedDate, Request
 from .forms import UserSignUpForm
@@ -60,25 +61,30 @@ def listView(request):
         return render(request, 'rents/login.html', {'message': 'Please login first.'})
     # To distinguish items depends on their menu type and size, get multiple objects and passed.
     # car = Car.objects.filter(car_type='Toyota').only('id')
-    start_date = request.GET.get('startdate')
-    end_date = request.GET.get('enddate')
 
-    print(start_date)
-    print(type(start_date))
 
-    pystart = dt.parse(start_date)
-    print(pystart)
-    print(type(pystart))
+    # regular_pizza_menu = Menu.objects.filter(menu_type='Regular Pizza', menu_size='Small').only('menu_name')
 
-    # cars_to_exclude = ['Toyota']
+    # asd = ReservedDate.objects.filter(id=1).only('id')
+    # print('asd')
+    # print(asd)
+
+    cars_to_exclude = ['Toyota']
     # cars_to_exclude = ReservedDate.objects.filter(Q(reserved_date_start_date__range(datetime(start_date),datetime(end_date))))|Q(reserved_date_end_date__range(datetime(start_date),datetime(end_date))).all()
-    cars_to_exclude = ReservedDate.objects.filter(reserved_date_start_date=start_date)
-
-    print('HIHI')
-    print(cars_to_exclude)
 
     car = Car.objects.exclude(car_brand__in=cars_to_exclude).all()
     context = {
         'cars' : car
     }
     return render(request, 'rents/list.html', context)
+
+def searchList(request):
+    start_date = request.GET.get('startdate')
+    end_date = request.GET.get('enddate')
+    start_datetime = datetime.datetime.strptime(start_date, "%a, %d %b %Y %H:%M:%S %Z")
+    end_datetime = datetime.datetime.strptime(end_date, "%a, %d %b %Y %H:%M:%S %Z")
+    reserved_cars = ReservedDate.objects.filter(Q(reserved_date_start_date__range=[start_datetime, end_datetime])|Q(reserved_date_end_date__range=[start_datetime, end_datetime]))
+    reserved_ids = [ids.reserved_date_car.id for ids in reserved_cars]
+    enable_cars = Car.objects.exclude(id__in=reserved_ids).all()
+    cars_response = serializers.serialize("json", enable_cars)
+    return HttpResponse(cars_response, content_type='application/json')
