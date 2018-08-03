@@ -38,18 +38,7 @@ $(function() {
 function chooseDate(){
     const start_date = $('#from').datepicker('getDate').toUTCString();
     const end_date = $('#to').datepicker('getDate').toUTCString();
-
-    $.ajax({
-        url: '/searchList',
-        data: {
-            startdate: start_date,
-            enddate: end_date
-        },
-        success: function(data){
-            console.log(data);
-            console.log(typeof data);
-        }
-    });
+    window.location.href = "/search/" + start_date + "/" + end_date;
 }
 
 
