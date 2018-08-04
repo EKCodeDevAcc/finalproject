@@ -18,8 +18,13 @@
             {% if user.is_superuser %}
             <h3><a href="/adminOrder/placed">Admin Order</a></h3>
             {% endif %}
-            {% block body %}
-            {% endblock %}
+            {% if user.is_authenticated %}
+                {% block menu %}
+                {% endblock %}
+            {% else %}
+                {% block loginout %}
+                {% endblock %}
+            {% endif %}
         </div>
     </body>
 </html>

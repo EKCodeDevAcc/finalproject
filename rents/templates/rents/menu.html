@@ -1,0 +1,30 @@
+{% extends "rents/layout.html" %}
+
+{% block menu %}
+<div class="form-group">
+    <div class="content_item">
+        <h2 id="title_welcome">Welcome, {{ user.username }}</h2>
+        <input id="logout_button" class="btn btn-success" type="button" value="Logout" onclick="location.href = '/logout'"/>
+    </div>
+    <div id="menu">
+        <table id="menu_table">
+            <tr id="menu_table_tr">
+                <td id="menu_table_td">
+                    <a class="menu_button" href="/location">Location</a>
+                </td>
+                <td id="menu_table_td">
+                    <a class="menu_button" href="/list">List</a>
+                </td>
+                <td id="menu_table_td">
+                    <a class="menu_button" href="/order">My History</a>
+                </td>
+                <td id="menu_table_td">
+                    <a class="menu_button" href="/contact">Contact</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    {% block body %}
+    {% endblock %}
+</div>
+{% endblock %}

@@ -35,14 +35,16 @@ $(function() {
 });
 
 //
-function chooseDate(){
+function chooseDate() {
     const start_date = $('#from').datepicker('getDate').toUTCString();
     const end_date = $('#to').datepicker('getDate').toUTCString();
     window.location.href = "/search/" + start_date + "/" + end_date;
 }
 
 
-
+function viewDeal(){
+    alert("YAY");
+}
 
 
 

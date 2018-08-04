@@ -59,15 +59,17 @@ def listView(request):
     if not request.user.is_authenticated:
         return render(request, 'rents/login.html', {'message': 'Please login first.'})
     # To distinguish items depends on their menu type and size, get multiple objects and passed.
-    cars_to_exclude = ['Toyota']
+    # cars_to_exclude = ['Toyota']
+    reserved_ids = []
 
-    car = Car.objects.exclude(car_brand__in=cars_to_exclude).all()
+    enable_cars = Car.objects.exclude(id__in=reserved_ids).all()
     context = {
-        'cars' : car
+        'cars' : enable_cars
     }
     return render(request, 'rents/list.html', context)
 
 
+# Search Result View
 def searchView(request, startdate, enddate):
     start_datetime = datetime.strptime(startdate, "%a, %d %b %Y %H:%M:%S %Z")
     end_datetime = datetime.strptime(enddate, "%a, %d %b %Y %H:%M:%S %Z")
@@ -76,6 +78,16 @@ def searchView(request, startdate, enddate):
     enable_cars = Car.objects.exclude(id__in=reserved_ids).all()
 
     context = {
-        'cars' : enable_cars
+        'cars' : enable_cars,
+        'startdate' : startdate,
+        'enddate' : enddate
     }
-    return render(request, 'rents/list.html', context)
+    return render(request, 'rents/search.html', context)
+
+
+# Reservation View
+def reservationView(request):
+    context = {
+        'cars' : 'asd'
+    }
+    return render(request, 'rents/reservation.html', context)

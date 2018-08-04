@@ -21,7 +21,7 @@
 
 /* Menu section with my orders, menu, place order */
 #menu {
-    background-color: #dc3545;
+    background-color: #007eff;
     border-radius: 15px;
     margin-top: 30px;
     margin-bottom: 30px;
@@ -43,26 +43,27 @@
 }
 
 #menu_table_td {
-    width: 33%;
+    width: 25%;
     display: block;
     float: left;
     text-align: center;
     margin-top: 15px;
 }
 
-#menu_button {
+.menu_button {
     color: white;
     font-weight: bold;
 }
 
 /* Change button's color to green when it is selected */
 #menu_button_select {
-    color: #008605;
+    color: #f9ff00;
     font-weight: bold;
 }
 
 #body_content {
-    margin-top: 60px;
+    display: block;
+    float: left;
 }
 
 .body_table_content {
