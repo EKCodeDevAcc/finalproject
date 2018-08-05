@@ -6,25 +6,18 @@
         {{ message }}
     </div>
 {% endif %}
-<div id="body_content" class="form-group">
-    <div id="location_drop" class="dropdown">
-        <select id="location_item" name="location">
-            <option value="All">All</option>
-            {% for location in locations %}
-            <option value="{{ location.location_name }}">{{ location.location_name }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div id="datebox">
-        <table class="table">
-            <tr>
-                <td><label for="from">From</label></td>
-                <td><input type="text" id="from" name="from"></td>
-                <td><label for="to">To</label></td>
-                <td><input type="text" id="to" name="to"></td>
-                <td><input id="choose_date" class="btn btn-success" type="button" value="Select" onclick="chooseDate()" /></td>
-            </tr>
-        </table>
-    </div>
+<div id="location_drop" class="dropdown">
+    <select id="location_item" name="location">
+        <option value="All">All</option>
+        {% for location in locations %}
+        <option value="{{ location.location_name }}">{{ location.location_name }}</option>
+        {% endfor %}
+    </select>
+</div>
+<div id="datebox">
+    <table>
+        <td id="datepick_td"><input id="datepick" type="text" name="daterange"/></td>
+        <td><input id="choose_date" class="btn btn-success" type="button" value="Select" onclick="chooseDate()" /></td>
+    </table>
 </div>
 {% endblock %}

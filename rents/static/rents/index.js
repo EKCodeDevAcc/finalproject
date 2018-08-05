@@ -1,41 +1,31 @@
 // datepick function
-$(function() {
-    var dateFormat = "mm/dd/yy",
-    from = $("#from").datepicker({
-        defaultDate: "+1w",
-        changeMonth: false,
-        minDate: 0,
-        maxDate: "+1M",
-        numberOfMonths: 1
-    })
-    .on("change", function() {
-        to.datepicker("option", "minDate", getDate(this));
-    }),
-    to = $("#to").datepicker({
-        defaultDate: "+1w",
-        changeMonth: false,
-        minDate: 0,
-        maxDate: "+1M",
-        numberOfMonths: 1
-    })
-    .on("change", function() {
-        from.datepicker("option", "maxDate", getDate(this));
-    });
+var start_date, end_date;
 
-    function getDate(element) {
-        var date;
-        try {
-            date = $.datepicker.parseDate(dateFormat, element.value);
-        } catch( error ) {
-            date = null;
-        }
-    }
+$(function() {
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1;
+    var yyyy = today.getFullYear();
+    if(dd<10){ dd='0'+dd }
+    if(mm<10){ mm='0'+mm }
+    var today = mm+'/'+dd+'/'+yyyy;
+
+    $('input[name="daterange"]').daterangepicker({
+        opens: 'left',
+        minDate: today
+    }, function(start, end, label) {
+        const start_string = start.format('YYYY-MM-DD');
+        const end_string = end.format('YYYY-MM-DD');
+        var start_obj = new Date(start_string);
+        var end_obj = new Date(end_string);
+        start_date = start_obj.toUTCString();
+        end_date = end_obj.toUTCString();
+    });
 });
 
 // Pass location, start date, end date information.
 function chooseDate() {
-    const start_date = $('#from').datepicker('getDate').toUTCString();
-    const end_date = $('#to').datepicker('getDate').toUTCString();
     const location = document.querySelector('#location_item').value;
 
     window.location.href = "/search/" + start_date + "/" + end_date + "/" + location + "/price_desc";

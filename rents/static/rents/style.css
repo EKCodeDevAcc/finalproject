@@ -75,6 +75,14 @@
     margin: 0% 0% 0% 0%;
 }
 
+#datepick_td {
+    padding-right: 20px;
+}
+
+#datepick {
+    width: 105%;
+}
+
 #choose_date {
     width: 100%;
 }
