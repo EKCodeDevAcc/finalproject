@@ -8,6 +8,7 @@ urlpatterns = [
     path("login", views.loginView, name="login"),
     path("logout", views.logoutView, name="logout"),
     path("search/<str:startdate>/<str:enddate>", views.searchView, name="search"),
+    path("search/<str:startdate>/<str:enddate>/<str:location>", views.searchLocationView, name="search_location"),
     path("reservation/<str:startdate>/<str:enddate>", views.reservationView, name="search"),
     path("list", views.listView, name="list"),
 ]

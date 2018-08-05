@@ -12,12 +12,6 @@
     float: right;
 }
 
-/* Phrase in main page */
-#datebox {
-    margin-top: 60px;
-    display: block;
-    float: left;
-}
 
 /* Menu section with my orders, menu, place order */
 #menu {
@@ -55,15 +49,34 @@
     font-weight: bold;
 }
 
-/* Change button's color to green when it is selected */
-#menu_button_select {
-    color: #f9ff00;
-    font-weight: bold;
-}
-
+/* basic body content */
 #body_content {
+    width: 100%;
     display: block;
     float: left;
+}
+
+/* location dropdown menu */
+#location_drop {
+    display: block;
+    float: left;
+    width: 40%;
+    margin-top: 10px;
+}
+
+#location_item {
+    width: 100%;
+}
+
+/* datepicker */
+#datebox {
+    display: block;
+    float: right;
+    margin: 0% 0% 0% 0%;
+}
+
+#choose_date {
+    width: 100%;
 }
 
 .body_table_content {

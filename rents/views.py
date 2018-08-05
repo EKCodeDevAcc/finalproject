@@ -6,8 +6,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core import serializers
 from django.db.models import Q
 from datetime import datetime
+from django.apps import apps
 
-from .models import Car, Reservation, ReservedDate, Request
+from .models import Location, Car, Reservation, ReservedDate, Request
 from .forms import UserSignUpForm
 
 # Create your views here.
@@ -15,7 +16,11 @@ def index(request):
     # If user is not logged in, redirect him/her to login page.
     if not request.user.is_authenticated:
         return render(request, 'rents/login.html')
-    return render(request, 'rents/index.html')
+    location = Location.objects.all()
+    context = {
+        'locations' : location
+    }
+    return render(request, 'rents/index.html', context)
 
 # Sign Up Page.
 def signUp(request):
@@ -76,6 +81,31 @@ def searchView(request, startdate, enddate):
     reserved_cars = ReservedDate.objects.filter(Q(reserved_date_start_date__range=[start_datetime, end_datetime])|Q(reserved_date_end_date__range=[start_datetime, end_datetime]))
     reserved_ids = [ids.reserved_date_car.id for ids in reserved_cars]
     enable_cars = Car.objects.exclude(id__in=reserved_ids).all()
+
+    print('111111111')
+    print(reserved_cars)
+    print(reserved_ids)
+
+    context = {
+        'cars' : enable_cars,
+        'startdate' : startdate,
+        'enddate' : enddate
+    }
+    return render(request, 'rents/search.html', context)
+
+
+# Search Result View
+def searchLocationView(request, startdate, enddate, location):
+    start_datetime = datetime.strptime(startdate, "%a, %d %b %Y %H:%M:%S %Z")
+    end_datetime = datetime.strptime(enddate, "%a, %d %b %Y %H:%M:%S %Z")
+
+    reserved_cars = ReservedDate.objects.filter(Q(reserved_date_start_date__range=[start_datetime, end_datetime])|Q(reserved_date_end_date__range=[start_datetime, end_datetime]))
+    reserved_ids = [ids.reserved_date_car.id for ids in reserved_cars]
+
+    no_location = Location.objects.exclude(location_name=location)
+    no_location_id = [ids.id for ids in no_location]
+
+    enable_cars = Car.objects.exclude(Q(id__in=reserved_ids)|Q(car_location__id__in=no_location_id)).all()
 
     context = {
         'cars' : enable_cars,

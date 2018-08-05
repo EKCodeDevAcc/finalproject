@@ -8,7 +8,7 @@
             <div class="body_table_content">
                 <!-- List of menus in 3 columns menu name, small price, large price -->
                 <!-- Also separate depends on menu types -->
-                <h4>Search List</h4>
+                <h4>Search List asdasdasd</h4>
                 <div>
                     <table class="table">
                         <tr>
@@ -19,6 +19,8 @@
                             <th>Size</th>
                             <th>Details</th>
                             <th>Deal</th>
+                            <th>asd</th>
+                            <th>asd</th>
                         </tr>
                         {% for car in cars %}
                         <tr>
@@ -29,6 +31,8 @@
                             <td>{{ car.car_size }}</td>
                             <td>{{ car.car_detail }}</td>
                             <td><input class="btn btn-success" type="button" value="View Deal" onclick="viewDeal()" /></td>
+                            <td>{{ car.car_location }}</td>
+                            <td>{{ car.car_location.id }}</td>
                         </tr>
                         {% endfor %}
                     </table>

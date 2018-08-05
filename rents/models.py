@@ -2,20 +2,12 @@ from django.db import models
 from django.conf import settings
 
 # Create your models here.
+class Location(models.Model):
+    location_name = models.CharField(max_length=64)
+    location_address = models.CharField(max_length=64)
 
-# class Detail(models.Model):
-#     detail_name = models.CharField(max_length=64)
-
-#     def __str__(self):
-#         return f"{self.detail_name}"
-
-
-# class Location(models.Model):
-#     location_name = models.CharField(max_length=64)
-#     location_address = models.CharField(max_length=64)
-
-#     def __str__(self):
-#         return f"{self.location_name} {self.location_address}"
+    def __str__(self):
+        return f"{self.location_name} {self.location_address}"
 
 
 class Car(models.Model):
@@ -26,6 +18,7 @@ class Car(models.Model):
     car_size = models.IntegerField()
     car_detail = models.CharField(max_length=64)
     car_status = models.CharField(max_length=64)
+    car_location = models.ForeignKey(Location, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.car_brand} {self.car_name} {self.car_type} {self.car_price} {self.car_size} {self.car_detail}"
@@ -49,7 +42,7 @@ class Reservation(models.Model):
 
 class ReservedDate(models.Model):
     reserved_date_car = models.ForeignKey(Car, on_delete=models.CASCADE)
-    # reserved_date_reservation = ????
+    reserved_date_reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
     reserved_date_start_date = models.DateTimeField()
     reserved_date_end_date = models.DateTimeField()
 
@@ -59,6 +52,7 @@ class ReservedDate(models.Model):
 
 class Request(models.Model):
     request_reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
+    request_reserved_date = models.ForeignKey(ReservedDate, on_delete=models.CASCADE)
     request_start_date = models.DateTimeField(blank=True, null=True)
     request_end_date = models.DateTimeField(blank=True, null=True)
     request_pick_up = models.CharField(max_length=64)
