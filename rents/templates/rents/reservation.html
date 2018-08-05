@@ -1,0 +1,70 @@
+{% extends "rents/menu.html" %}
+
+{% block body %}
+<div id="body_content" class="form-group">
+    <div>
+        <div id="search_title">
+            <h2>Search List</h2>
+            <p id="given_location_value" class="hidden_value">{{ location }}</p>
+        </div>
+        <div class="body_table">
+            <div class="body_table_content">
+                <!-- List of menus in 3 columns menu name, small price, large price -->
+                <!-- Also separate depends on menu types -->
+                <div>
+                </div>
+                <div>
+                    <table class="table">
+                        <tr>
+                            <th></th>
+                            <th>Brand</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Daily Price</th>
+                            <th>Size</th>
+                            <th>Details</th>
+                        </tr>
+                        {% for carinfo in carinfos %}
+                        <tr>
+                            <td><img src="/static/rents/img/{{ carinfo.id }}.png" alt="{{ carinfo.car_name }}" height="100"></td>
+                            <td>{{ carinfo.car_brand }}</td>
+                            <td>{{ carinfo.car_name }}</td>
+                            <td>{{ carinfo.car_type }}</td>
+                            <td>${{ carinfo.car_price }}</td>
+                            <td>{{ carinfo.car_size }}</td>
+                            <td>{{ carinfo.car_detail }}</td>
+                            <p id="book_car_id" class="hidden_value">{{ carinfo.id }}</p>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div>
+                    <table class="table">
+                        <tr>
+                            <td>Deal:</td>
+                            <td>${{ multipleprice }}</td>
+                        </tr>
+                        <tr>
+                            <td>Taxes and Fees:</td>
+                            <td>${{ taxes }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Total:</b></td>
+                            <td><b>${{ totalprice }}</b></td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <form action="">
+                        <input type="radio" name="protection" value="Yes">Yes, I will add damage protection for $10 per day.<br>
+                        <input type="radio" name="protection" value="No">No, I will take a risk.<br>
+                    </form>
+                </div>
+                <div>
+                    <input class="btn btn-success" type="button" value="Book Now" onclick="book(`{{ startdate }}`, `{{ enddate }}`, `{{ totalprice }}`)" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

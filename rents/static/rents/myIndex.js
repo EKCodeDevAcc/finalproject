@@ -41,14 +41,14 @@ function chooseDate() {
     window.location.href = "/search/" + start_date + "/" + end_date + "/" + location + "/price_desc";
 };
 
-// Set default value of sor by dropdown item depends on sort value.
+// Set default value of sort by dropdown item depends on sort value.
 $(function() {
     const sort = document.querySelector('#given_sort_value').innerHTML;
     $('.sort_item').val(sort);
 });
 
-//
-function sortBy(sort_value){
+// Pass sort value to sort the search result.
+function sortBy(sort_value) {
     const start_date = document.querySelector('#given_start_date_value').innerHTML;
     const end_date = document.querySelector('#given_end_date_value').innerHTML;
     const location = document.querySelector('#given_location_value').innerHTML;
@@ -56,7 +56,25 @@ function sortBy(sort_value){
     window.location.href = "/search/" + start_date + "/" + end_date + "/" + location + "/" + sort_value;
 };
 
+// Select a deal to direct to detail views
+function viewDeal(car_id, start_date, end_date) {
+    window.location.href = "/reservation/" + car_id + "/" + start_date + "/" + end_date;
+};
 
-function viewDeal(){
-    window.location.href = "/";
+//
+function book(start_date, end_date, total_price) {
+    const car_id = document.querySelector('#book_car_id').innerHTML;
+
+    $.ajax({
+        url: '/bookCar',
+        data: {
+            carid: car_id,
+            startdate: start_date,
+            enddate: end_date,
+            totalprice: total_price
+        },
+        success: function(data){
+            alert("hey");
+        }
+    });
 };

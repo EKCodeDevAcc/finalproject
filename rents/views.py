@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.core import serializers
 from django.db.models import Q
 from datetime import datetime
@@ -108,8 +109,52 @@ def searchView(request, startdate, enddate, location, sort):
 
 
 # Reservation View
-def reservationView(request):
+def reservationView(request, carid, startdate, enddate):
+
+    # Calculate the number of difference of two dates.
+    date_form = "%m/%d/%Y"
+    startdate_form = datetime.strptime(startdate, "%a, %d %b %Y %H:%M:%S %Z")
+    enddate_form = datetime.strptime(enddate, "%a, %d %b %Y %H:%M:%S %Z")
+    date_num = enddate_form - startdate_form
+
+    # if no cars avaiable for that date, return error message
+
+    car_info = Car.objects.filter(id=carid)
+
     context = {
-        'cars' : 'asd'
+        'carinfos' : car_info,
+        'startdate' : startdate,
+        'enddate' : enddate,
+        'datenum' : date_num.days,
+        'multipleprice' : date_num.days * car_info[0].car_price,
+        'taxes' : date_num.days * car_info[0].car_price * 0.315,
+        'totalprice' : date_num.days * car_info[0].car_price + date_num.days * car_info[0].car_price * 0.315,
     }
     return render(request, 'rents/reservation.html', context)
+
+
+# Create Reservation and Reservation Date
+def bookCar(request):
+    car_id = request.GET.get('carid')
+    start_date = request.GET.get('startdate')
+    end_date = request.GET.get('enddate')
+    total_price = request.GET.get('totalprice')
+
+    get_reservation_user = User.objects.filter(id=request.user.id)
+    get_reservation_car = Car.objects.filter(id=car_id)
+
+    startdate_form = datetime.strptime(start_date, "%a, %d %b %Y %H:%M:%S %Z")
+    enddate_form = datetime.strptime(end_date, "%a, %d %b %Y %H:%M:%S %Z")
+
+    latest_reservation = Reservation.objects.create(reservation_user=get_reservation_user[0], reservation_car=get_reservation_car[0],
+    reservation_start_date=startdate_form, reservation_end_date=enddate_form, reservation_pick_up='Boston',
+    reservation_drop_off='Boston', reservation_protection='No', reservation_total_price=total_price,
+    reservation_status='Waiting', reservation_request='No')
+
+    # Get id of reservation just booked.
+    # latest_reservation_id = Reservation.objects.latest('id')
+
+    ReservedDate.objects.create(reserved_date_car=get_reservation_car[0], reserved_date_reservation=latest_reservation,
+    reserved_date_start_date=startdate_form, reserved_date_end_date=enddate_form)
+
+    return JsonResponse({'order_stats': 'Complete'})
