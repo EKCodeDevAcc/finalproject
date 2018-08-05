@@ -75,42 +75,34 @@ def listView(request):
 
 
 # Search Result View
-def searchView(request, startdate, enddate):
-    start_datetime = datetime.strptime(startdate, "%a, %d %b %Y %H:%M:%S %Z")
-    end_datetime = datetime.strptime(enddate, "%a, %d %b %Y %H:%M:%S %Z")
-    reserved_cars = ReservedDate.objects.filter(Q(reserved_date_start_date__range=[start_datetime, end_datetime])|Q(reserved_date_end_date__range=[start_datetime, end_datetime]))
-    reserved_ids = [ids.reserved_date_car.id for ids in reserved_cars]
-    enable_cars = Car.objects.exclude(id__in=reserved_ids).all()
-
-    print('111111111')
-    print(reserved_cars)
-    print(reserved_ids)
-
-    context = {
-        'cars' : enable_cars,
-        'startdate' : startdate,
-        'enddate' : enddate
-    }
-    return render(request, 'rents/search.html', context)
-
-
-# Search Result View
-def searchLocationView(request, startdate, enddate, location):
+def searchView(request, startdate, enddate, location, sort):
     start_datetime = datetime.strptime(startdate, "%a, %d %b %Y %H:%M:%S %Z")
     end_datetime = datetime.strptime(enddate, "%a, %d %b %Y %H:%M:%S %Z")
 
     reserved_cars = ReservedDate.objects.filter(Q(reserved_date_start_date__range=[start_datetime, end_datetime])|Q(reserved_date_end_date__range=[start_datetime, end_datetime]))
     reserved_ids = [ids.reserved_date_car.id for ids in reserved_cars]
 
-    no_location = Location.objects.exclude(location_name=location)
-    no_location_id = [ids.id for ids in no_location]
+    if location == 'All':
+        no_location_id = []
+    else:
+        no_location = Location.objects.exclude(location_name=location)
+        no_location_id = [ids.id for ids in no_location]
 
-    enable_cars = Car.objects.exclude(Q(id__in=reserved_ids)|Q(car_location__id__in=no_location_id)).all()
+    if sort == 'price_desc':
+        enable_cars = Car.objects.exclude(Q(id__in=reserved_ids)|Q(car_location__id__in=no_location_id)).all().order_by('-car_price')
+    elif sort == 'price_asc':
+        enable_cars = Car.objects.exclude(Q(id__in=reserved_ids)|Q(car_location__id__in=no_location_id)).all().order_by('car_price')
+    elif sort == 'size_desc':
+        enable_cars = Car.objects.exclude(Q(id__in=reserved_ids)|Q(car_location__id__in=no_location_id)).all().order_by('-car_size')
+    elif sort == 'size_asc':
+        enable_cars = Car.objects.exclude(Q(id__in=reserved_ids)|Q(car_location__id__in=no_location_id)).all().order_by('car_size')
 
     context = {
         'cars' : enable_cars,
         'startdate' : startdate,
-        'enddate' : enddate
+        'enddate' : enddate,
+        'location' : location,
+        'sort' : sort
     }
     return render(request, 'rents/search.html', context)
 

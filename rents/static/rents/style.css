@@ -79,6 +79,28 @@
     width: 100%;
 }
 
+#search_title {
+    display: block;
+    float: left;
+    width: 50%;
+}
+
+#sort_list {
+    display: block;
+    float: right;
+    width: 50%;
+}
+
+.sort_item {
+    display: block;
+    float: right;
+    margin-left: 10px;
+}
+
+.hidden_value {
+    display: none;
+}
+
 .body_table_content {
     margin-bottom: 40px;
     display: block;

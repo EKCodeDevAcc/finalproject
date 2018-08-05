@@ -1,5 +1,3 @@
-var startdate, enddate;
-
 // datepick function
 $(function() {
     var dateFormat = "mm/dd/yy",
@@ -34,19 +32,31 @@ $(function() {
     }
 });
 
-
+// Pass location, start date, end date information.
 function chooseDate() {
     const start_date = $('#from').datepicker('getDate').toUTCString();
     const end_date = $('#to').datepicker('getDate').toUTCString();
-
     const location = document.querySelector('#location_item').value;
-    if (location == 'All') {
-        window.location.href = "/search/" + start_date + "/" + end_date;
-    } else {
-        window.location.href = "/search/" + start_date + "/" + end_date + "/" + location;
-    }
-}
+
+    window.location.href = "/search/" + start_date + "/" + end_date + "/" + location + "/price_desc";
+};
+
+// Set default value of sor by dropdown item depends on sort value.
+$(function() {
+    const sort = document.querySelector('#given_sort_value').innerHTML;
+    $('.sort_item').val(sort);
+});
+
+//
+function sortBy(sort_value){
+    const start_date = document.querySelector('#given_start_date_value').innerHTML;
+    const end_date = document.querySelector('#given_end_date_value').innerHTML;
+    const location = document.querySelector('#given_location_value').innerHTML;
+
+    window.location.href = "/search/" + start_date + "/" + end_date + "/" + location + "/" + sort_value;
+};
+
 
 function viewDeal(){
     window.location.href = "/";
-}
+};

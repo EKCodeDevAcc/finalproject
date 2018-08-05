@@ -3,15 +3,32 @@
 {% block body %}
 <div id="body_content" class="form-group">
     <div>
-        <h2>List</h2>
+        <div id="search_title">
+            <h2>Search List</h2>
+            <p id="given_location_value" class="hidden_value">{{ location }}</p>
+            <p id="given_start_date_value" class="hidden_value">{{ startdate }}</p>
+            <p id="given_end_date_value" class="hidden_value">{{ enddate }}</p>
+            <p id="given_sort_value" class="hidden_value">{{ sort }}</p>
+        </div>
+        <div id="sort_list">
+            <select id="sort_by" class="sort_item" name="location" onchange="sortBy(this.value)">
+                <option value="price_desc">Price ↓</option>
+                <option value="price_asc">Price ↑</option>
+                <option value="size_desc">Size ↓</option>
+                <option value="size_asc">Size ↑</option>
+            </select>
+            <h5 class="sort_item">Sort By:</h5>
+        </div>
         <div class="body_table">
             <div class="body_table_content">
                 <!-- List of menus in 3 columns menu name, small price, large price -->
                 <!-- Also separate depends on menu types -->
-                <h4>Search List asdasdasd</h4>
+                <div>
+                </div>
                 <div>
                     <table class="table">
                         <tr>
+                            <th></th>
                             <th>Brand</th>
                             <th>Name</th>
                             <th>Type</th>
@@ -19,11 +36,10 @@
                             <th>Size</th>
                             <th>Details</th>
                             <th>Deal</th>
-                            <th>asd</th>
-                            <th>asd</th>
                         </tr>
                         {% for car in cars %}
                         <tr>
+                            <td><img src="/static/rents/img/{{ car.id }}.png" alt="{{ car.car_name }}" height="100"></td>
                             <td>{{ car.car_brand }}</td>
                             <td>{{ car.car_name }}</td>
                             <td>{{ car.car_type }}</td>
@@ -31,13 +47,9 @@
                             <td>{{ car.car_size }}</td>
                             <td>{{ car.car_detail }}</td>
                             <td><input class="btn btn-success" type="button" value="View Deal" onclick="viewDeal()" /></td>
-                            <td>{{ car.car_location }}</td>
-                            <td>{{ car.car_location.id }}</td>
                         </tr>
                         {% endfor %}
                     </table>
-                    <p>{{ startdate }}</p>
-                    <p>{{ enddate }}</p>
                 </div>
             </div>
         </div>
