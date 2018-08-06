@@ -4,8 +4,8 @@
 <div id="body_content" class="form-group">
     <div>
         <div id="search_title">
-            <h2>Search List</h2>
-            <p id="given_location_value" class="hidden_value">{{ location }}</p>
+            <h2>Reservation Details</h2>
+            <p id="given_date_diff" class="hidden_value">{{ datenum }}</p>
         </div>
         <div class="body_table">
             <div class="body_table_content">
@@ -13,54 +13,90 @@
                 <!-- Also separate depends on menu types -->
                 <div>
                 </div>
-                <div>
+                {% for carinfo in carinfos %}
+                <div id="car_image">
+                    <img src="/static/rents/img/{{ carinfo.id }}.png" alt="{{ carinfo.car_name }}">
+                </div>
+                <div id="car_info">
                     <table class="table">
                         <tr>
-                            <th></th>
                             <th>Brand</th>
                             <th>Name</th>
                             <th>Type</th>
                             <th>Daily Price</th>
-                            <th>Size</th>
-                            <th>Details</th>
                         </tr>
-                        {% for carinfo in carinfos %}
                         <tr>
-                            <td><img src="/static/rents/img/{{ carinfo.id }}.png" alt="{{ carinfo.car_name }}" height="100"></td>
                             <td>{{ carinfo.car_brand }}</td>
                             <td>{{ carinfo.car_name }}</td>
                             <td>{{ carinfo.car_type }}</td>
-                            <td>${{ carinfo.car_price }}</td>
-                            <td>{{ carinfo.car_size }}</td>
-                            <td>{{ carinfo.car_detail }}</td>
+                            <td>${{ carinfo.car_price|floatformat:2 }}</td>
                             <p id="book_car_id" class="hidden_value">{{ carinfo.id }}</p>
                         </tr>
-                        {% endfor %}
                     </table>
                 </div>
-                <div>
+                <div id="car_info">
+                    <table class="table">
+                        <tr>
+                            <th>Size</th>
+                            <th>Details</th>
+                        </tr>
+                        <tr>
+                            <td>{{ carinfo.car_size }}</td>
+                            <td>{{ carinfo.car_detail }}</td>
+                        </tr>
+                    </table>
+                </div>
+                {% endfor %}
+                <div id="reservation_div">
+                    <h4>Date:</h4>
+                    <table class="table">
+                        <tr>
+                            <th>From</th>
+                            <th>To</th>
+                        </tr>
+                        <tr>
+                            <td>{{ startdate }}</td>
+                            <td>{{ enddate }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="protection_div">
+                    <h4>Add Rental Car Damage Protection:</h4>
+                    <input type="radio" name="protection" value="Yes"> Yes, I will add damage protection for $10 per day.<br>
+                    <input type="radio" name="protection" value="No" checked="checked"> No, I will take a risk.<br>
+                </div>
+                <div id="protection_price_div">
+                    <h4>Protection Price:</h4>
+                    <table class="table">
+                        <tr>
+                            <td>Rental Car Damage Protection:</td>
+                            <td><p id="young_fee_dollar">$</p><p id="protection_item"></p></td>
+                        </tr>
+                    </table>
+                    <p id="protection_status"></p>
+                </div>
+                <div id="reservation_div">
+                    <h4>Price:</h4>
                     <table class="table">
                         <tr>
                             <td>Deal:</td>
-                            <td>${{ multipleprice }}</td>
+                            <td>${{ multipleprice|floatformat:2 }}<p></p></td>
+                        </tr>
+                        <tr id='young_fee_tr'>
+                            <td>Young Renter Fee:</td>
+                            <td><p id="young_fee_dollar">$</p><p id="young_fee_item">{{ youngfee|floatformat:2  }}</p></td>
                         </tr>
                         <tr>
                             <td>Taxes and Fees:</td>
-                            <td>${{ taxes }}</td>
+                            <td>${{ taxes|floatformat:2 }}</td>
                         </tr>
                         <tr>
                             <td><b>Total:</b></td>
-                            <td><b>${{ totalprice }}</b></td>
+                            <td><b>${{ totalprice|floatformat:2 }}</b></td>
                         </tr>
                     </table>
                 </div>
-                <div>
-                    <form action="">
-                        <input type="radio" name="protection" value="Yes">Yes, I will add damage protection for $10 per day.<br>
-                        <input type="radio" name="protection" value="No">No, I will take a risk.<br>
-                    </form>
-                </div>
-                <div>
+                <div id="reservation_div">
                     <input class="btn btn-success" type="button" value="Book Now" onclick="book(`{{ startdate }}`, `{{ enddate }}`, `{{ totalprice }}`)" />
                 </div>
             </div>

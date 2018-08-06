@@ -9,6 +9,7 @@
                 <p id="given_location_value" class="hidden_value">{{ location }}</p>
                 <p id="given_start_date_value" class="hidden_value">{{ startdate }}</p>
                 <p id="given_end_date_value" class="hidden_value">{{ enddate }}</p>
+                <p id="given_age_value" class="hidden_value">{{ age }}</p>
                 <p id="given_sort_value" class="hidden_value">{{ sort }}</p>
             </div>
             <div id="sort_list">
@@ -44,10 +45,10 @@
                                 <td>{{ car.car_brand }}</td>
                                 <td>{{ car.car_name }}</td>
                                 <td>{{ car.car_type }}</td>
-                                <td>${{ car.car_price }}</td>
+                                <td>${{ car.car_price|floatformat:2 }}</td>
                                 <td>{{ car.car_size }}</td>
                                 <td>{{ car.car_detail }}</td>
-                                <td><input class="btn btn-success" type="button" value="View Deal" onclick="viewDeal(`{{ car.id }}`, `{{ startdate }}`, `{{ enddate }}`)" /></td>
+                                <td><input class="btn btn-success" type="button" value="View Deal" onclick="viewDeal(`{{ car.id }}`, `{{ startdate }}`, `{{ enddate }}`, `{{ age }}`)" /></td>
                             </tr>
                             {% endfor %}
                         </table>

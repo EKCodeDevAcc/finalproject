@@ -76,7 +76,7 @@ def listView(request):
 
 
 # Search Result View
-def searchView(request, startdate, enddate, location, sort):
+def searchView(request, startdate, enddate, location, age, sort):
     start_datetime = datetime.strptime(startdate, "%a, %d %b %Y %H:%M:%S %Z")
     end_datetime = datetime.strptime(enddate, "%a, %d %b %Y %H:%M:%S %Z")
 
@@ -103,32 +103,50 @@ def searchView(request, startdate, enddate, location, sort):
         'startdate' : startdate,
         'enddate' : enddate,
         'location' : location,
+        'age' : age,
         'sort' : sort
     }
     return render(request, 'rents/search.html', context)
 
 
 # Reservation View
-def reservationView(request, carid, startdate, enddate):
+def reservationView(request, carid, startdate, enddate, age):
 
     # Calculate the number of difference of two dates.
     date_form = "%m/%d/%Y"
     startdate_form = datetime.strptime(startdate, "%a, %d %b %Y %H:%M:%S %Z")
     enddate_form = datetime.strptime(enddate, "%a, %d %b %Y %H:%M:%S %Z")
-    date_num = enddate_form - startdate_form
+    date_diff = enddate_form - startdate_form
+    date_num = date_diff.days
 
     # if no cars avaiable for that date, return error message
 
     car_info = Car.objects.filter(id=carid)
 
+    multipe_price = date_num * car_info[0].car_price
+    round_multipe_price = round(multipe_price,2)
+
+    if age == 'Under':
+        young_fee = date_num * car_info[0].car_price * 0.33
+        round_young_fee = round(young_fee,2)
+    elif age == 'Over':
+        round_young_fee = 0
+
+
+    taxes = (round_multipe_price + round_young_fee) * 0.0625
+    round_taxes = round(taxes,2)
+
+    total_price = round_multipe_price + round_young_fee + round_taxes
+
     context = {
         'carinfos' : car_info,
         'startdate' : startdate,
         'enddate' : enddate,
-        'datenum' : date_num.days,
-        'multipleprice' : date_num.days * car_info[0].car_price,
-        'taxes' : date_num.days * car_info[0].car_price * 0.315,
-        'totalprice' : date_num.days * car_info[0].car_price + date_num.days * car_info[0].car_price * 0.315,
+        'datenum' : date_num,
+        'multipleprice' : round_multipe_price,
+        'youngfee' : round_young_fee,
+        'taxes' : round_taxes,
+        'totalprice' : total_price,
     }
     return render(request, 'rents/reservation.html', context)
 
@@ -139,6 +157,7 @@ def bookCar(request):
     start_date = request.GET.get('startdate')
     end_date = request.GET.get('enddate')
     total_price = request.GET.get('totalprice')
+    protection = request.GET.get('protection')
 
     get_reservation_user = User.objects.filter(id=request.user.id)
     get_reservation_car = Car.objects.filter(id=car_id)
@@ -147,9 +166,9 @@ def bookCar(request):
     enddate_form = datetime.strptime(end_date, "%a, %d %b %Y %H:%M:%S %Z")
 
     latest_reservation = Reservation.objects.create(reservation_user=get_reservation_user[0], reservation_car=get_reservation_car[0],
-    reservation_start_date=startdate_form, reservation_end_date=enddate_form, reservation_pick_up='Boston',
-    reservation_drop_off='Boston', reservation_protection='No', reservation_total_price=total_price,
-    reservation_status='Waiting', reservation_request='No')
+        reservation_start_date=startdate_form, reservation_end_date=enddate_form, reservation_pick_up='Boston',
+        reservation_drop_off='Boston', reservation_protection=protection, reservation_total_price=total_price,
+        reservation_status='Waiting', reservation_request='No')
 
     # Get id of reservation just booked.
     # latest_reservation_id = Reservation.objects.latest('id')

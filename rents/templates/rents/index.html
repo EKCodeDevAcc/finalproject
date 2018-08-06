@@ -7,17 +7,40 @@
     </div>
 {% endif %}
 <div id="location_drop" class="dropdown">
-    <select id="location_item" name="location">
-        <option value="All">All</option>
-        {% for location in locations %}
-        <option value="{{ location.location_name }}">{{ location.location_name }}</option>
-        {% endfor %}
-    </select>
+    <table>
+        <tr>
+            <td class="datepick_td">Location: </td>
+            <td>
+                <select id="location_item" name="location">
+                <option value="All">All</option>
+                {% for location in locations %}
+                <option value="{{ location.location_name }}">{{ location.location_name }}</option>
+                {% endfor %}
+                </select>
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="age_check" class="dropdown">
+    <table>
+        <tr>
+            <td class="datepick_td">Age: </td>
+            <td>
+                <select id="age_item" name="location">
+                    <option value="Under">Under 25</option>
+                    <option value="Over">Over 25</option>
+                </select>
+            </td>
+        </tr>
+    </table>
 </div>
 <div id="datebox">
     <table>
-        <td id="datepick_td"><input id="datepick" type="text" name="daterange"/></td>
-        <td><input id="choose_date" class="btn btn-success" type="button" value="Select" onclick="chooseDate()" /></td>
+        <tr>
+            <td class="datepick_td">Date: </td>
+            <td class="datepick_td"><input id="datepick" type="text" name="daterange"/></td>
+            <td><input id="choose_date" class="btn btn-success" type="button" value="Select" onclick="chooseDate()" /></td>
+        </tr>
     </table>
 </div>
 {% endblock %}

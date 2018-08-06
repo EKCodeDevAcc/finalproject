@@ -57,10 +57,10 @@
 }
 
 /* location dropdown menu */
-#location_drop {
+#location_drop, #age_check {
     display: block;
     float: left;
-    width: 40%;
+    width: 20%;
     margin-top: 10px;
 }
 
@@ -75,7 +75,7 @@
     margin: 0% 0% 0% 0%;
 }
 
-#datepick_td {
+.datepick_td {
     padding-right: 20px;
 }
 
@@ -106,6 +106,46 @@
 }
 
 .hidden_value {
+    display: none;
+}
+
+#car_image {
+    display: block;
+    float: left;
+    width: 30%;
+}
+
+#car_info {
+    display: block;
+    float: left;
+    width: 70%;
+}
+
+#reservation_div {
+    margin-top: 20px;
+    display: block;
+    float: left;
+    width: 100%;
+}
+
+#protection_div {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: block;
+    float: left;
+    width: 50%;
+}
+
+#young_fee_dollar, #young_fee_item, #protection_item {
+    display: block;
+    float: left;
+}
+
+#protection_price_div {
+    margin-top: 20px;
+    display: block;
+    float: left;
+    width: 50%;
     display: none;
 }
 
