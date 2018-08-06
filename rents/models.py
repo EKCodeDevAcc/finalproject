@@ -29,8 +29,7 @@ class Reservation(models.Model):
     reservation_car = models.ForeignKey(Car, on_delete=models.CASCADE)
     reservation_start_date = models.DateTimeField()
     reservation_end_date = models.DateTimeField()
-    reservation_pick_up = models.CharField(max_length=64)
-    reservation_drop_off = models.CharField(max_length=64)
+    reservation_drop_off = models.ForeignKey(Location, on_delete=models.CASCADE)
     reservation_protection = models.CharField(max_length=64)
     reservation_total_price = models.FloatField()
     reservation_status = models.CharField(max_length=64)
@@ -55,10 +54,9 @@ class Request(models.Model):
     request_reserved_date = models.ForeignKey(ReservedDate, on_delete=models.CASCADE)
     request_start_date = models.DateTimeField(blank=True, null=True)
     request_end_date = models.DateTimeField(blank=True, null=True)
-    request_pick_up = models.CharField(max_length=64)
-    request_drop_off = models.CharField(max_length=64)
+    request_drop_off = models.ForeignKey(Location, on_delete=models.CASCADE)
     request_status = models.CharField(max_length=64)
     request_approval = models.CharField(max_length=64)
 
     def __str__(self):
-        return f"{self.request_reservation} {self.request_start_date} {self.request_end_date} {self.request_pick_up} {self.request_drop_off} {self.request_status} {self.request_approval}"
+        return f"{self.request_reservation} {self.request_start_date} {self.request_end_date} {self.request_drop_off} {self.request_status} {self.request_approval}"

@@ -15,7 +15,7 @@
                 </div>
                 {% for carinfo in carinfos %}
                 <div id="car_image">
-                    <img src="/static/rents/img/{{ carinfo.id }}.png" alt="{{ carinfo.car_name }}">
+                    <img src="/static/rents/img/{{ carinfo.car_name }}.png" alt="{{ carinfo.car_name }}">
                 </div>
                 <div id="car_info">
                     <table class="table">
@@ -59,6 +59,14 @@
                             <td>{{ enddate }}</td>
                         </tr>
                     </table>
+                </div>
+                <div id="reservation_div">
+                    <h4>Drop-off Location:</h4>
+                    <select id="location_item" name="location">
+                        {% for locationlist in locationlists %}
+                        <option value="{{ locationlist.location_name }}">{{ locationlist.location_name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div id="protection_div">
                     <h4>Add Rental Car Damage Protection:</h4>

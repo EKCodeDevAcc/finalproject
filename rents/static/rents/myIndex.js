@@ -95,6 +95,7 @@ $(function() {
 function book(start_date, end_date, total_price) {
     const car_id = document.querySelector('#book_car_id').innerHTML;
     const date_num = document.querySelector('#given_date_diff').innerHTML;
+    const location = document.querySelector('#location_item').value;
 
     var final_price;
 
@@ -111,7 +112,8 @@ function book(start_date, end_date, total_price) {
             startdate: start_date,
             enddate: end_date,
             totalprice: final_price,
-            protection: protection_status
+            protection: protection_status,
+            dropoff: location
         },
         success: function(data){
             alert("hey");

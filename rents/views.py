@@ -98,13 +98,16 @@ def searchView(request, startdate, enddate, location, age, sort):
     elif sort == 'size_asc':
         enable_cars = Car.objects.exclude(Q(id__in=reserved_ids)|Q(car_location__id__in=no_location_id)).all().order_by('car_size')
 
+    result_length = len(Car.objects.exclude(Q(id__in=reserved_ids)|Q(car_location__id__in=no_location_id)).all())
+
     context = {
         'cars' : enable_cars,
         'startdate' : startdate,
         'enddate' : enddate,
         'location' : location,
         'age' : age,
-        'sort' : sort
+        'sort' : sort,
+        'resultlength' : result_length
     }
     return render(request, 'rents/search.html', context)
 
@@ -138,6 +141,8 @@ def reservationView(request, carid, startdate, enddate, age):
 
     total_price = round_multipe_price + round_young_fee + round_taxes
 
+    location_list = Location.objects.all();
+
     context = {
         'carinfos' : car_info,
         'startdate' : startdate,
@@ -147,6 +152,7 @@ def reservationView(request, carid, startdate, enddate, age):
         'youngfee' : round_young_fee,
         'taxes' : round_taxes,
         'totalprice' : total_price,
+        'locationlists' : location_list
     }
     return render(request, 'rents/reservation.html', context)
 
@@ -158,6 +164,7 @@ def bookCar(request):
     end_date = request.GET.get('enddate')
     total_price = request.GET.get('totalprice')
     protection = request.GET.get('protection')
+    dropoff = request.GET.get('dropoff')
 
     get_reservation_user = User.objects.filter(id=request.user.id)
     get_reservation_car = Car.objects.filter(id=car_id)
@@ -165,10 +172,11 @@ def bookCar(request):
     startdate_form = datetime.strptime(start_date, "%a, %d %b %Y %H:%M:%S %Z")
     enddate_form = datetime.strptime(end_date, "%a, %d %b %Y %H:%M:%S %Z")
 
+    get_reservation_drop_off = Location.objects.filter(location_name=dropoff)
+
     latest_reservation = Reservation.objects.create(reservation_user=get_reservation_user[0], reservation_car=get_reservation_car[0],
-        reservation_start_date=startdate_form, reservation_end_date=enddate_form, reservation_pick_up='Boston',
-        reservation_drop_off='Boston', reservation_protection=protection, reservation_total_price=total_price,
-        reservation_status='Waiting', reservation_request='No')
+        reservation_start_date=startdate_form, reservation_end_date=enddate_form, reservation_drop_off=get_reservation_drop_off[0],
+        reservation_protection=protection, reservation_total_price=total_price, reservation_status='Waiting', reservation_request='No')
 
     # Get id of reservation just booked.
     # latest_reservation_id = Reservation.objects.latest('id')

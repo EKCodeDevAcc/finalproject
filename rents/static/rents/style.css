@@ -93,6 +93,19 @@
     width: 50%;
 }
 
+#search_list_title {
+    display: block;
+    float: left;
+}
+
+#search_list_length {
+    display: block;
+    float: left;
+    margin-top: 10px;
+    margin-left: 20px;
+    color: gray;
+}
+
 #sort_list {
     display: block;
     float: right;
@@ -129,8 +142,8 @@
 }
 
 #protection_div {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 50px;
+    margin-bottom: 30px;
     display: block;
     float: left;
     width: 50%;
@@ -142,7 +155,7 @@
 }
 
 #protection_price_div {
-    margin-top: 20px;
+    margin-top: 47px;
     display: block;
     float: left;
     width: 50%;
