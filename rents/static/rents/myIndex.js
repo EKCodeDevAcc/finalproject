@@ -1,8 +1,8 @@
-// datepick function
+// datepick function.
 var start_date, end_date;
 
 $(function() {
-
+    // Set minimum date as today.
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth()+1;
@@ -29,7 +29,12 @@ function chooseDate() {
     const location = document.querySelector('#location_item').value;
     const age = document.querySelector('#age_item').value;
 
-    window.location.href = "/search/" + start_date + "/" + end_date + "/" + location + "/" + age + "/price_desc";
+    // If user does not select date, alert the message.
+    if (start_date == undefined || end_date == undefined) {
+        alert("Please select desired date.");
+    } else {
+        window.location.href = "/search/" + start_date + "/" + end_date + "/" + location + "/" + age + "/price_desc";
+    }
 };
 
 // Set default value of sort by dropdown item depends on sort value.
@@ -48,13 +53,13 @@ function sortBy(sort_value) {
     window.location.href = "/search/" + start_date + "/" + end_date + "/" + location + "/" + age + "/" + sort_value;
 };
 
-// Select a deal to direct to detail views
+// Select a deal to direct to detail views.
 function viewDeal(car_id, start_date, end_date, age) {
     window.location.href = "/reservation/" + car_id + "/" + start_date + "/" + end_date + "/" + age;
 };
 
 
-// Only display when a user is under 25 so there is young renter fee
+// Only display when a user is under 25 which means there is young renter fee.
 $(function() {
     const young_fee = document.querySelector('#young_fee_item').innerHTML;
     var young_fee_tr = document.querySelector('#young_fee_tr');
@@ -64,6 +69,8 @@ $(function() {
     }
 });
 
+// Depends on users' choice about protection plan, either display or hide protection price content.
+// Default protection plan choice is No.
 var protection_status = 'No';
 
 $(function() {
@@ -77,6 +84,7 @@ $(function() {
             protection_status = 'No';
         } else {
             protection_price_div.style.display = "unset";
+            // Protection plan price is $10 times number of rental days.
             document.querySelector('#protection_item').innerHTML = date_num * 10
             protection_status = 'Yes';
         }
