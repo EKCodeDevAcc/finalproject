@@ -73,7 +73,7 @@ def searchView(request, startdate, enddate, location, age, sort):
         return render(request, 'rents/index.html', {'message': 'Please login first.'})
     start_datetime = datetime.strptime(startdate, "%a, %d %b %Y %H:%M:%S %Z")
     end_datetime = datetime.strptime(enddate, "%a, %d %b %Y %H:%M:%S %Z")
-    reserved_cars = ReservedDate.objects.filter(Q(reserved_date_start_date__range=[start_datetime, end_datetime])|Q(reserved_date_end_date__range=[start_datetime, end_datetime]))
+    reserved_cars = ReservedDate.objects.filter((Q(reserved_date_start_date__range=[start_datetime, end_datetime])|Q(reserved_date_end_date__range=[start_datetime, end_datetime]))&~Q(reserved_date_reservation__reservation_status='Canceled'))
     reserved_ids = [ids.reserved_date_car.id for ids in reserved_cars]
 
     # Display all cars or cars from certain location.
@@ -118,36 +118,40 @@ def reservationView(request, carid, startdate, enddate, age):
     date_diff = enddate_form - startdate_form
     date_num = date_diff.days
 
-    # if no cars avaiable for that date, return error message
+    # Check if this car already has a reservation for selected date.
+    reserved_car_length = ReservedDate.objects.filter((Q(reserved_date_start_date__range=[startdate_form, enddate_form])|Q(reserved_date_end_date__range=[startdate_form, enddate_form]))&~Q(reserved_date_reservation__reservation_status='Canceled')&Q(reserved_date_car__id=carid)).count()
 
-    car_info = Car.objects.filter(id=carid)
-    multipe_price = date_num * car_info[0].car_price
-    round_multipe_price = round(multipe_price,2)
+    if reserved_car_length > 0:
+        return render(request, 'rents/error.html', {'message': 'This car is not available for selected date.'})
+    else:
+        car_info = Car.objects.filter(id=carid)
+        multipe_price = date_num * car_info[0].car_price
+        round_multipe_price = round(multipe_price,2)
 
-    # Uner 25 users, 33% extra young rental fee.
-    if age == 'Under':
-        young_fee = date_num * car_info[0].car_price * 0.33
-        round_young_fee = round(young_fee,2)
-    elif age == 'Over':
-        round_young_fee = 0
-    taxes = (round_multipe_price + round_young_fee) * 0.0625
-    round_taxes = round(taxes,2)
-    total_price = round_multipe_price + round_young_fee + round_taxes
+        # Uner 25 users, 33% extra young rental fee.
+        if age == 'Under':
+            young_fee = date_num * car_info[0].car_price * 0.33
+            round_young_fee = round(young_fee,2)
+        elif age == 'Over':
+            round_young_fee = 0
+        taxes = (round_multipe_price + round_young_fee) * 0.0625
+        round_taxes = round(taxes,2)
+        total_price = round_multipe_price + round_young_fee + round_taxes
 
-    location_list = Location.objects.all()
+        location_list = Location.objects.all()
 
-    context = {
-        'carinfos' : car_info,
-        'startdate' : startdate,
-        'enddate' : enddate,
-        'datenum' : date_num,
-        'multipleprice' : round_multipe_price,
-        'youngfee' : round_young_fee,
-        'taxes' : round_taxes,
-        'totalprice' : total_price,
-        'locationlists' : location_list
-    }
-    return render(request, 'rents/reservation.html', context)
+        context = {
+            'carinfos' : car_info,
+            'startdate' : startdate,
+            'enddate' : enddate,
+            'datenum' : date_num,
+            'multipleprice' : round_multipe_price,
+            'youngfee' : round_young_fee,
+            'taxes' : round_taxes,
+            'totalprice' : total_price,
+            'locationlists' : location_list
+        }
+        return render(request, 'rents/reservation.html', context)
 
 # Create Reservation and Reservation Date
 def bookCar(request):
@@ -369,7 +373,7 @@ def requestApproval(request):
             print('Start Cancellation')
             Request.objects.filter(id=request_id).update(request_approval='Approved')
             Reservation.objects.filter(id=reservation_id).update(reservation_status='Canceled')
-            ReservedDate.objects.filter(reserved_date_reservation__id=reservation_id).delete()
+            # ReservedDate.objects.filter(reserved_date_reservation__id=reservation_id).delete()
             return JsonResponse({'message': 'Approved the request succesfully. The reservation is canceled.'})
         else:
             if reserved_length > 1:
