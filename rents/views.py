@@ -8,6 +8,7 @@ from django.core import serializers
 from django.db.models import Q
 from datetime import datetime
 from django.apps import apps
+from django.contrib.auth.decorators import user_passes_test
 
 from .models import Location, Car, Reservation, ReservedDate, Request
 from .forms import UserSignUpForm
@@ -189,7 +190,8 @@ def historyView(request):
 
 # My History Detail Page
 def historyDetailView(request, reservationid, userid):
-    reservation_detail = Reservation.objects.filter(id=reservationid).all()
+    # To check requested user is the owner of the reservation.
+    reservation_detail = Reservation.objects.filter(Q(id=reservationid)&Q(reservation_user__id=request.user.id)).all()
     reservation_length = len(reservation_detail)
     if not request.user.is_authenticated:
         return render(request, 'rents/login.html', {'message': 'Please login first.'})
@@ -198,8 +200,10 @@ def historyDetailView(request, reservationid, userid):
     elif reservation_length == 0:
         return render(request, 'rents/error.html', {'message': 'No Result.'})
     else:
+        reservation_request = Request.objects.filter(request_reservation__id=reservationid).all()
         context = {
-            'reservationdetails' : reservation_detail
+            'reservationdetails' : reservation_detail,
+            'reservationrequests' : reservation_request
         }
         return render(request, 'rents/history_detail.html', context)
 
@@ -226,3 +230,35 @@ def requestCancellation(request):
         request_status='Cancellation', request_approval='Waiting')
 
     return JsonResponse({'order_stats': 'Complete'})
+
+
+# Admin page for check reservations
+# Limited to superuser
+@user_passes_test(lambda user: user.is_superuser)
+def adminReservationView(request, time, status):
+    if not request.user.is_authenticated:
+        return render(request, 'rents/login.html', {'message': 'Please login first.'})
+    current_time = datetime.now()
+    # Display past reservations.
+    if time == 'past':
+        reservation_list = Reservation.objects.filter(reservation_end_date__lt=current_time).all()
+        search_status = 'past'
+    elif time == 'current':
+        # Display current waiting reservations.
+        if status == 'waiting':
+            reservation_list = Reservation.objects.filter(Q(reservation_end_date__gt=current_time)&Q(reservation_status='Waiting')).all()
+            search_status = 'currentwait'
+        # Display current checked-in reservations.
+        elif status == 'checked':
+            reservation_list = Reservation.objects.filter(Q(reservation_end_date__gt=current_time)&Q(reservation_status='Checked-in')).all()
+            search_status = 'currentcheck'
+        # Display current checked-in, complete, canceled reservations.
+        elif status == 'complete':
+            reservation_list = Reservation.objects.filter(Q(reservation_end_date__gt=current_time)&(Q(reservation_status='Complete')|Q(reservation_status='Canceled'))).all()
+            search_status = 'currentcomplete'
+
+    context = {
+        'reservationlists' : reservation_list,
+        'searchstatus' : search_status
+    }
+    return render(request, 'rents/admin_reservation.html', context)

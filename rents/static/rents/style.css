@@ -134,7 +134,7 @@
     width: 70%;
 }
 
-#reservation_div, #request_div {
+#reservation_div, #request_div, #submit_request_div {
     margin-top: 20px;
     display: block;
     float: left;
@@ -188,6 +188,15 @@
     width: 33%;
     display: block;
     float: left;
+}
+
+#past_reservation, #waiting_reservation, #check_in_reservation, #complete_reservation {
+    width: 25%;
+    display: block;
+    float: left;
+    text-align: center;
+    border: solid;
+    border-width: thin;
 }
 
 /* main content part of menu pages */

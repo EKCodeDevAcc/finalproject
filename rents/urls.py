@@ -12,5 +12,6 @@ urlpatterns = [
     path("bookCar", views.bookCar, name="book_car"),
     path("history", views.historyView, name="history"),
     path("history/<int:reservationid>/<int:userid>", views.historyDetailView, name="history_detail"),
-    path("requestCancellation", views.requestCancellation, name="request_cancellation")
+    path("requestCancellation", views.requestCancellation, name="request_cancellation"),
+    path("adminpage/reservation/<str:time>/<str:status>", views.adminReservationView, name="admin_reservation"),
 ]

@@ -136,9 +136,12 @@ function viewReservation(reservation_id, user_id) {
 $(function() {
     const request_status = document.querySelector('#reservation_request_status').innerHTML;
     var request_div = document.querySelector('#request_div');
+    var submit_request_div = document.querySelector('#submit_request_div');
 
-    if (request_status == 'No'){
+    if (request_status == 'No') {
         request_div.style.display = "none";
+    } else {
+        submit_request_div.style.display = "none";
     };
 });
 
@@ -182,3 +185,35 @@ function cancelModalYes(reservation_id) {
         }
     });
 }
+
+
+// Change color of background of admin reservation page subtitles.
+$(function() {
+    const admin_reservation_search_status = document.querySelector('#admin_reservation_search_status').innerHTML;
+    var past_reservation = document.querySelector('#past_reservation');
+    var waiting_reservation = document.querySelector('#waiting_reservation');
+    var check_in_reservation = document.querySelector('#check_in_reservation');
+    var complete_reservation = document.querySelector('#complete_reservation');
+
+    if (admin_reservation_search_status == 'past') {
+        past_reservation.style.borderBottom = "none"
+        waiting_reservation.style.backgroundColor = "#d2d2d2";
+        check_in_reservation.style.backgroundColor = "#d2d2d2";
+        complete_reservation.style.backgroundColor = "#d2d2d2";
+    } else if (admin_reservation_search_status == 'currentwait') {
+        past_reservation.style.backgroundColor = "#d2d2d2";
+        waiting_reservation.style.borderBottom = "none"
+        check_in_reservation.style.backgroundColor = "#d2d2d2";
+        complete_reservation.style.backgroundColor = "#d2d2d2";
+    } else if (admin_reservation_search_status == 'currentcheck') {
+        past_reservation.style.backgroundColor = "#d2d2d2";
+        waiting_reservation.style.backgroundColor = "#d2d2d2";
+        check_in_reservation.style.borderBottom = "none"
+        complete_reservation.style.backgroundColor = "#d2d2d2";
+    } else {
+        past_reservation.style.backgroundColor = "#d2d2d2";
+        waiting_reservation.style.backgroundColor = "#d2d2d2";
+        check_in_reservation.style.backgroundColor = "#d2d2d2";
+        complete_reservation.style.borderBottom = "none"
+    };
+});

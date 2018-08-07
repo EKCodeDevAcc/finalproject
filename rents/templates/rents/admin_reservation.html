@@ -1,0 +1,54 @@
+{% extends "rents/menu.html" %}
+
+{% block body %}
+<div id="body_content" class="form-group">
+    <div>
+        <h2>List of Reservations</h2>
+        <div class="body_table">
+            <div class="body_table_content">
+                <!-- List of menus in 3 columns menu name, small price, large price -->
+                <!-- Also separate depends on menu types -->
+                <div id="past_reservation">
+                    <h4><a href="/adminpage/reservation/past/else">Past</a></h4>
+                </div>
+                <div id="waiting_reservation">
+                    <h4><a href="/adminpage/reservation/current/waiting">Waiting</a></h4>
+                </div>
+                <div id="check_in_reservation">
+                    <h4><a href="/adminpage/reservation/current/checked">Checked-in</a></h4>
+                </div>
+                <div id="complete_reservation">
+                    <h4><a href="/adminpage/reservation/current/complete">Complete</a></h4>
+                </div>
+                <p id="admin_reservation_search_status" class="hidden_value">{{ searchstatus }}</p>
+                <div>
+                    <table class="table">
+                        <tr>
+                            <th>Car</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Pick-up Location</th>
+                            <th>Drop-off Location</th>
+                            <th>Total Price</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                        </tr>
+                        {% for reservationlist in reservationlists %}
+                        <tr>
+                            <td>{{ reservationlist.reservation_car.car_brand }} {{ reservationlist.reservation_car.car_name }}</td>
+                            <td>{{ reservationlist.reservation_start_date }}</td>
+                            <td>{{ reservationlist.reservation_end_date }}</td>
+                            <td>{{ reservationlist.reservation_car.car_location.location_name }}</td>
+                            <td>{{ reservationlist.reservation_drop_off.location_name }}</td>
+                            <td>${{ reservationlist.reservation_total_price|floatformat:2 }}</td>
+                            <td>{{ reservationlist.reservation_status }}</td>
+                            <td><input class="btn btn-success" type="button" value="View Reservation" onclick="viewReservation(`{{ myreservation.id }}`, `{{ myreservation.reservation_user.id }}`)" /></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
