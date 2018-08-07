@@ -24,36 +24,30 @@
             </div>
             <div class="body_table">
                 <div class="body_table_content">
-                    <!-- List of menus in 3 columns menu name, small price, large price -->
-                    <!-- Also separate depends on menu types -->
-                    <div>
-                    </div>
-                    <div>
-                        <table class="table">
-                            <tr>
-                                <th></th>
-                                <th>Brand</th>
-                                <th>Name</th>
-                                <th>Type</th>
-                                <th>Daily Price</th>
-                                <th>Size</th>
-                                <th>Details</th>
-                                <th>Deal</th>
-                            </tr>
-                            {% for car in cars %}
-                            <tr>
-                                <td><img src="/static/rents/img/{{ car.car_name }}.png" alt="{{ car.car_name }}" height="100"></td>
-                                <td>{{ car.car_brand }}</td>
-                                <td>{{ car.car_name }}</td>
-                                <td>{{ car.car_type }}</td>
-                                <td>${{ car.car_price|floatformat:2 }}</td>
-                                <td>{{ car.car_size }}</td>
-                                <td>{{ car.car_detail }}</td>
-                                <td><input class="btn btn-success" type="button" value="View Deal" onclick="viewDeal(`{{ car.id }}`, `{{ startdate }}`, `{{ enddate }}`, `{{ age }}`)" /></td>
-                            </tr>
-                            {% endfor %}
-                        </table>
-                    </div>
+                    <table class="table">
+                        <tr>
+                            <th></th>
+                            <th>Brand</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Daily Price</th>
+                            <th>Size</th>
+                            <th>Details</th>
+                            <th>Deal</th>
+                        </tr>
+                        {% for car in cars %}
+                        <tr>
+                            <td><img src="/static/rents/img/{{ car.car_name }}.png" alt="{{ car.car_name }}" height="100"></td>
+                            <td>{{ car.car_brand }}</td>
+                            <td>{{ car.car_name }}</td>
+                            <td>{{ car.car_type }}</td>
+                            <td>${{ car.car_price|floatformat:2 }}</td>
+                            <td>{{ car.car_size }}</td>
+                            <td>{{ car.car_detail }}</td>
+                            <td><input class="btn btn-success" type="button" value="View Deal" onclick="viewDeal(`{{ car.id }}`, `{{ startdate }}`, `{{ enddate }}`, `{{ age }}`)" /></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
                 </div>
             </div>
         </div>

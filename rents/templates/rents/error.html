@@ -1,0 +1,15 @@
+{% extends "rents/menu.html" %}
+
+{% block body %}
+<div id="body_content" class="form-group">
+    <h1>Error</h1>
+    {% if message %}
+        <div>
+            {{ message }}
+        </div>
+        <div>
+            <input class="btn btn-success" type="button" value="Go Back to Previous Page" onclick="goBack()" />
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

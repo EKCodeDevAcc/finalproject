@@ -1,3 +1,8 @@
+// Go back to previous page button.
+function goBack() {
+    window.history.back();
+}
+
 // datepick function.
 var start_date, end_date;
 
@@ -91,7 +96,7 @@ $(function() {
     });
 });
 
-//
+// Make a reservation for a selected car for given information.
 function book(start_date, end_date, total_price) {
     const car_id = document.querySelector('#book_car_id').innerHTML;
     const date_num = document.querySelector('#given_date_diff').innerHTML;
@@ -116,7 +121,64 @@ function book(start_date, end_date, total_price) {
             dropoff: location
         },
         success: function(data){
-            alert("hey");
+            alert("Thank you for choosing our service!");
+            window.location.href = "/history";
         }
     });
 };
+
+// Select a reservation to direct to detail view.
+function viewReservation(reservation_id, user_id) {
+    window.location.href = "/history/" + reservation_id + "/" + user_id;
+};
+
+// Only display when there is a request for the reservation.
+$(function() {
+    const request_status = document.querySelector('#reservation_request_status').innerHTML;
+    var request_div = document.querySelector('#request_div');
+
+    if (request_status == 'No'){
+        request_div.style.display = "none";
+    };
+});
+
+// When users click request cancellation button, pop out the modal.
+function reservationCancel() {
+    var modal = document.getElementById('cancelRequestModal');
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    modal.style.display = "block";
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+};
+
+// When users click No button in modal.
+function modalNo() {
+    var modal = document.getElementById('cancelRequestModal');
+    modal.style.display = "none";
+};
+
+function cancelModalYes(reservation_id) {
+    var reservation_id = document.querySelector('#reservation_id').innerHTML;
+    var reservation_drop_off = document.querySelector('#reservation_drop_off').innerHTML;
+
+    $.ajax({
+        url: '/requestCancellation',
+        data: {
+            reservationid: reservation_id,
+            reservationdropoff: reservation_drop_off
+        },
+        success: function(data){
+            alert("Your cancellation request has been submitted!");
+            window.location.reload();
+        }
+    });
+}

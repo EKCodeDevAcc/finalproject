@@ -9,10 +9,6 @@
         </div>
         <div class="body_table">
             <div class="body_table_content">
-                <!-- List of menus in 3 columns menu name, small price, large price -->
-                <!-- Also separate depends on menu types -->
-                <div>
-                </div>
                 {% for carinfo in carinfos %}
                 <div id="car_image">
                     <img src="/static/rents/img/{{ carinfo.car_name }}.png" alt="{{ carinfo.car_name }}">
@@ -23,13 +19,13 @@
                             <th>Brand</th>
                             <th>Name</th>
                             <th>Type</th>
-                            <th>Daily Price</th>
+                            <th>Location</th>
                         </tr>
                         <tr>
                             <td>{{ carinfo.car_brand }}</td>
                             <td>{{ carinfo.car_name }}</td>
                             <td>{{ carinfo.car_type }}</td>
-                            <td>${{ carinfo.car_price|floatformat:2 }}</td>
+                            <td>{{ carinfo.car_location.location_name }}</td>
                             <p id="book_car_id" class="hidden_value">{{ carinfo.id }}</p>
                         </tr>
                     </table>
@@ -39,10 +35,12 @@
                         <tr>
                             <th>Size</th>
                             <th>Details</th>
+                            <th>Daily Price</th>
                         </tr>
                         <tr>
                             <td>{{ carinfo.car_size }}</td>
                             <td>{{ carinfo.car_detail }}</td>
+                            <td>${{ carinfo.car_price|floatformat:2 }}</td>
                         </tr>
                     </table>
                 </div>
