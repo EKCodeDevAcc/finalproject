@@ -217,3 +217,41 @@ $(function() {
         complete_reservation.style.borderBottom = "none"
     };
 });
+
+// Select an admin reservation to direct to detail view.
+function viewAdminReservation(reservation_id) {
+    window.location.href = "/adminpage/reservation/" + reservation_id;
+};
+
+function viewAdminRequest(request_id) {
+    window.location.href = "/adminpage/request/" + request_id;
+};
+
+// Display
+$(function() {
+    const request_approval = document.querySelector('#request_approval').innerHTML;
+    var request_approval_div = document.querySelector('#request_approval_div');
+
+    if (request_approval != 'Waiting') {
+        request_approval_div.style.display = "none";
+    };
+});
+
+function requestApproval(request_id, status) {
+
+    console.log('Tada');
+    console.log(request_id);
+    console.log(status);
+
+    $.ajax({
+        url: '/requestApproval',
+        data: {
+            requestid: request_id,
+            requeststatus: status
+        },
+        success: function(data){
+            alert(data);
+            window.location.reload();
+        }
+    });
+}

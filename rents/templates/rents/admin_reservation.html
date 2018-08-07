@@ -24,25 +24,25 @@
                 <div>
                     <table class="table">
                         <tr>
+                            <th>Reservation ID</th>
+                            <th>User</th>
                             <th>Car</th>
                             <th>Start Date</th>
                             <th>End Date</th>
-                            <th>Pick-up Location</th>
-                            <th>Drop-off Location</th>
                             <th>Total Price</th>
                             <th>Status</th>
                             <th>Details</th>
                         </tr>
                         {% for reservationlist in reservationlists %}
                         <tr>
+                            <td>{{ reservationlist.id }}</td>
+                            <td>{{ reservationlist.reservation_user.username }}</td>
                             <td>{{ reservationlist.reservation_car.car_brand }} {{ reservationlist.reservation_car.car_name }}</td>
                             <td>{{ reservationlist.reservation_start_date }}</td>
                             <td>{{ reservationlist.reservation_end_date }}</td>
-                            <td>{{ reservationlist.reservation_car.car_location.location_name }}</td>
-                            <td>{{ reservationlist.reservation_drop_off.location_name }}</td>
                             <td>${{ reservationlist.reservation_total_price|floatformat:2 }}</td>
                             <td>{{ reservationlist.reservation_status }}</td>
-                            <td><input class="btn btn-success" type="button" value="View Reservation" onclick="viewReservation(`{{ myreservation.id }}`, `{{ myreservation.reservation_user.id }}`)" /></td>
+                            <td><input class="btn btn-success" type="button" value="View Reservation" onclick="viewAdminReservation(`{{ reservationlist.id }}`)" /></td>
                         </tr>
                         {% endfor %}
                     </table>

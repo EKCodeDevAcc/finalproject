@@ -1,0 +1,96 @@
+{% extends "rents/menu.html" %}
+
+{% block body %}
+<div id="body_content" class="form-group">
+    <div>
+        <div id="search_title_full">
+            {% for requestdetail in requestdetails %}
+            <h2>Request ID: {{ requestdetail.id }} / Username: {{ requestdetail.request_reservation.reservation_user.username }} ({{ requestdetail.request_reservation.reservation_status }})</h2>
+            <p id="given_date_diff" class="hidden_value">{{ datenum }}</p>
+        </div>
+        <div class="body_table">
+            <div class="body_table_content">
+                <div id="car_image">
+                    <img src="/static/rents/img/{{ requestdetail.request_reservation.reservation_car.car_name }}.png" alt="{{ requestdetail.request_reservation.reservation_car.car_name }}">
+                </div>
+                <div id="car_info">
+                    <table class="table">
+                        <tr>
+                            <th>Brand</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Location</th>
+                        </tr>
+                        <tr>
+                            <td>{{ requestdetail.request_reservation.reservation_car.car_brand }}</td>
+                            <td>{{ requestdetail.request_reservation.reservation_car.car_name }}</td>
+                            <td>{{ requestdetail.request_reservation.reservation_car.car_type }}</td>
+                            <td>{{ requestdetail.request_reservation.reservation_car.car_location.location_name }}</td>
+                            <p id="reservation_id" class="hidden_value">{{ requestdetail.request_reservation.id }}</p>
+                            <p id="book_car_id" class="hidden_value">{{ requestdetail.request_reservation.reservation_car.id }}</p>
+                            <p id="reservation_request_status" class="hidden_value">{{ requestdetail.request_reservation.reservation_request }}</p>
+                        </tr>
+                    </table>
+                </div>
+                <div id="car_info">
+                    <table class="table">
+                        <tr>
+                            <th>Size</th>
+                            <th>Details</th>
+                            <th>Protection</th>
+                            <th>Total Price</th>
+                        </tr>
+                        <tr>
+                            <td>{{ requestdetail.request_reservation.reservation_car.car_size }}</td>
+                            <td>{{ requestdetail.request_reservation.reservation_car.car_detail }}</td>
+                            <td>{{ requestdetail.request_reservation.reservation_protection }}</td>
+                            <td>${{ requestdetail.request_reservation.reservation_total_price|floatformat:2 }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="reservation_div">
+                    <h4>Date and Location:</h4>
+                    <table class="table">
+                        <tr>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Pick-up</th>
+                            <th>Drop-off</th>
+                        </tr>
+                        <tr>
+                            <td id="reservation_start_date">{{ requestdetail.request_reservation.reservation_start_date }}</td>
+                            <td id="reservation_end_date">{{ requestdetail.request_reservation.reservation_end_date }}</td>
+                            <td>{{ requestdetail.request_reservation.reservation_car.car_location.location_name }}</td>
+                            <td id="reservation_drop_off">{{ requestdetail.request_reservation.reservation_drop_off.location_name }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="request_div">
+                    <h4>Request:</h4>
+                    <table class="table">
+                        <tr>
+                            <th>Request Type</th>
+                            <th>Request Start Date</th>
+                            <th>Request End Date</th>
+                            <th>Request Drop-off</th>
+                            <th>Request Status</th>
+                        </tr>
+                        <tr>
+                            <td>{{ requestdetail.request_status }}</td>
+                            <td>{{ requestdetail.request_start_date }}</td>
+                            <td>{{ requestdetail.request_end_date }}</td>
+                            <td>{{ requestdetail.request_drop_off.location_name }}</td>
+                            <td id="request_approval">{{ requestdetail.request_approval }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="request_approval_div">
+                    <input class="btn btn-success" type="button" value="Approve" onclick="requestApproval(`{{ requestdetail.id }}`, 'Approve')" />
+                    <input class="btn btn-success" type="button" value="Decline" onclick="requestApproval(`{{ requestdetail.id }}`, 'Decline')" />
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

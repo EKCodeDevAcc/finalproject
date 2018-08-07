@@ -17,7 +17,9 @@
             <h1><a href="/">Edward Kang's Final Project!</a></h1>
             <!-- Display a link to admin order page only if the current user is a superuser -->
             {% if user.is_superuser %}
-            <h3><a href="/adminpage/reservation/current/waiting">Admin Page</a></h3>
+            <h3 class="admin_link"><a href="/adminpage/reservation/current/waiting">Admin Reservation</a></h3>
+            <h3 class="admin_link"><a href="/adminpage/request/current/waiting">Admin Request</a></h3>
+            <h3 class="admin_link"><a href="/adminpage/contact/current/waiting">Admin Contact</a></h3>
             {% endif %}
             {% if user.is_authenticated %}
                 {% block menu %}

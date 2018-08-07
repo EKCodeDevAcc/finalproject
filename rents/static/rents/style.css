@@ -1,3 +1,10 @@
+.admin_link {
+    width: 33%;
+    display: block;
+    float: left;
+    text-align: center;
+}
+
 /* Header with welcome and user name */
 #title_welcome {
     width: 50%;
@@ -91,6 +98,12 @@
     display: block;
     float: left;
     width: 50%;
+}
+
+#search_title_full {
+    display: block;
+    float: left;
+    width: 100%;
 }
 
 #search_list_title {

@@ -262,3 +262,120 @@ def adminReservationView(request, time, status):
         'searchstatus' : search_status
     }
     return render(request, 'rents/admin_reservation.html', context)
+
+# Admin Reservation Detail Page
+# Limited to superuser
+@user_passes_test(lambda user: user.is_superuser)
+def adminReservationDetailView(request, reservationid):
+    # To check requested user is the owner of the reservation.
+    reservation_detail = Reservation.objects.filter(id=reservationid).all()
+    reservation_length = len(reservation_detail)
+    if not request.user.is_authenticated:
+        return render(request, 'rents/login.html', {'message': 'Please login first.'})
+    elif reservation_length == 0:
+        return render(request, 'rents/error.html', {'message': 'No Result.'})
+    else:
+        reservation_request = Request.objects.filter(request_reservation__id=reservationid).all()
+        context = {
+            'reservationdetails' : reservation_detail,
+            'reservationrequests' : reservation_request
+        }
+        return render(request, 'rents/admin_reservation_detail.html', context)
+
+# Admin page for check reservations
+# Limited to superuser
+@user_passes_test(lambda user: user.is_superuser)
+def adminRequestView(request, time, status):
+    if not request.user.is_authenticated:
+        return render(request, 'rents/login.html', {'message': 'Please login first.'})
+    current_time = datetime.now()
+    # Display past reservations.
+    if time == 'past':
+        request_list = Request.objects.filter(request_reservation__reservation_end_date__lt=current_time).all()
+        search_status = 'past'
+    elif time == 'current':
+        # Display current waiting reservations.
+        if status == 'waiting':
+            request_list = Request.objects.filter(Q(request_reservation__reservation_end_date__gt=current_time)&Q(request_approval='Waiting')).all()
+            search_status = 'currentwait'
+        # Display current checked-in reservations.
+        elif status == 'declined':
+            request_list = Request.objects.filter(Q(request_reservation__reservation_end_date__gt=current_time)&Q(request_approval='Declined')).all()
+            search_status = 'currentdeclined'
+        # Display current checked-in, complete, canceled reservations.
+        elif status == 'approved':
+            request_list = Request.objects.filter(Q(request_reservation__reservation_end_date__gt=current_time)&Q(request_approval='Approved')).all()
+            search_status = 'currentapproved'
+
+    context = {
+        'requestlists' : request_list,
+        'searchstatus' : search_status
+    }
+    return render(request, 'rents/admin_request.html', context)
+
+# Admin Request Detail Page
+# Limited to superuser
+@user_passes_test(lambda user: user.is_superuser)
+def adminRequestDetailView(request, requestid):
+    # To check requested user is the owner of the reservation.
+    request_detail = Request.objects.filter(id=requestid).all()
+    request_length = len(request_detail)
+
+
+    if not request.user.is_authenticated:
+        return render(request, 'rents/login.html', {'message': 'Please login first.'})
+    elif request_length == 0:
+        return render(request, 'rents/error.html', {'message': 'No Result.'})
+    else:
+        # reservation_request = Request.objects.filter(request_reservation__id=reservationid).all()
+        context = {
+            'requestdetails' : request_detail
+        }
+        return render(request, 'rents/admin_request_detail.html', context)
+
+# Request Approve or Decline
+def requestApproval(request):
+    request_id = request.GET.get('requestid')
+    request_status = request.GET.get('status')
+
+    request_detail = Request.objects.filter(id=request_id).all()
+
+    # Get start, end date of request
+    startdate_form = request_detail[0].request_start_date
+    enddate_form = request_detail[0].request_end_date
+    reservation_id = request_detail[0].request_reservation.id
+    drop_off = request_detail[0].request_drop_off
+
+    # Check if there are another reservation for requested date range.
+    reserved_length = ReservedDate.objects.filter(Q(reserved_date_start_date__range=[startdate_form, enddate_form])|Q(reserved_date_end_date__range=[startdate_form, enddate_form])).count()
+
+    print('START')
+    print(request_id)
+    print(request_status)
+    print(request_detail)
+    print(startdate_form)
+    print(enddate_form)
+    print(reservation_id)
+    print(drop_off)
+    print(reserved_length)
+
+    if request_status == 'Decline':
+        Request.objects.filter(id=request_id).update(request_approval='Declined')
+        return JsonResponse({'message': 'Declined the request succesfully.'})
+    else:
+        print('Came Here At Least')
+        # Existed reserved date
+        if request_detail[0].request_status == 'Cancellation':
+            print('Start Cancellation')
+            Request.objects.filter(id=request_id).update(request_approval='Approved')
+            Reservation.objects.filter(id=reservation_id).update(reservation_status='Canceled')
+            ReservedDate.objects.filter(reserved_date_reservation__id=reservation_id).delete()
+            return JsonResponse({'message': 'Approved the request succesfully. The reservation is canceled.'})
+        else:
+            if reserved_length > 1:
+                Request.objects.filter(id=request_id).update(request_approval='Declined')
+                return JsonResponse({'message': 'The request cannot be approved due to duplication, so it is declined.'})
+            else:
+                Request.objects.filter(id=request_id).update(request_approval='Approved')
+                Reservation.objects.filter(id=reservation_id).update(reservation_start_date=startdate_form, reservation_end_date=enddate_form, reservation_drop_off=drop_off)
+                return JsonResponse({'message': 'Approved the request succesfully. The reservation is updated'})

@@ -1,0 +1,54 @@
+{% extends "rents/menu.html" %}
+
+{% block body %}
+<div id="body_content" class="form-group">
+    <div>
+        <h2>List of Requests</h2>
+        <div class="body_table">
+            <div class="body_table_content">
+                <!-- List of menus in 3 columns menu name, small price, large price -->
+                <!-- Also separate depends on menu types -->
+                <div id="past_reservation">
+                    <h4><a href="/adminpage/request/past/all">Past</a></h4>
+                </div>
+                <div id="waiting_reservation">
+                    <h4><a href="/adminpage/request/current/waiting">Waiting</a></h4>
+                </div>
+                <div id="check_in_reservation">
+                    <h4><a href="/adminpage/request/current/declined">Declined</a></h4>
+                </div>
+                <div id="complete_reservation">
+                    <h4><a href="/adminpage/request/current/approved">Approved</a></h4>
+                </div>
+                <p id="admin_reservation_search_status" class="hidden_value">{{ searchstatus }}</p>
+                <div>
+                    <table class="table">
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Type</th>
+                            <th>User</th>
+                            <th>Car</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                        </tr>
+                        {% for requestlist in requestlists %}
+                        <tr>
+                            <td>{{ requestlist.id }}</td>
+                            <td>{{ requestlist.request_status }}</td>
+                            <td>{{ requestlist.request_reservation.reservation_user.username }}</td>
+                            <td>{{ requestlist.request_reservation.reservation_car.car_brand }} {{ reservationlist.reservation_car.car_name }}</td>
+                            <td>{{ requestlist.request_reservation.reservation_start_date }}</td>
+                            <td>{{ requestlist.request_reservation.reservation_end_date }}</td>
+                            <td>{{ requestlist.request_reservation.reservation_status }}</td>
+                            <td><input class="btn btn-success" type="button" value="View Request" onclick="viewAdminRequest(`{{ requestlist.id }}`)" /></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
