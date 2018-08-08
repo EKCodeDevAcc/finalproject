@@ -203,7 +203,7 @@
     float: left;
 }
 
-#past_reservation, #waiting_reservation, #check_in_reservation, #complete_reservation {
+#past_reservation, #waiting_reservation, #check_in_reservation, #complete_reservation, #past_request, #waiting_request, #declined_request, #approved_request{
     width: 25%;
     display: block;
     float: left;

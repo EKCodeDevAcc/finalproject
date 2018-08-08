@@ -223,6 +223,37 @@ function viewAdminReservation(reservation_id) {
     window.location.href = "/adminpage/reservation/" + reservation_id;
 };
 
+// Change color of background of admin reservation page subtitles.
+$(function() {
+    const admin_reservation_search_status = document.querySelector('#admin_reservation_search_status').innerHTML;
+    var past_request = document.querySelector('#past_request');
+    var waiting_request = document.querySelector('#waiting_request');
+    var declined_request = document.querySelector('#declined_request');
+    var approved_request = document.querySelector('#approved_request');
+
+    if (admin_reservation_search_status == 'past') {
+        past_request.style.borderBottom = "none"
+        waiting_request.style.backgroundColor = "#d2d2d2";
+        declined_request.style.backgroundColor = "#d2d2d2";
+        approved_request.style.backgroundColor = "#d2d2d2";
+    } else if (admin_reservation_search_status == 'currentwait') {
+        past_request.style.backgroundColor = "#d2d2d2";
+        waiting_request.style.borderBottom = "none"
+        declined_request.style.backgroundColor = "#d2d2d2";
+        approved_request.style.backgroundColor = "#d2d2d2";
+    } else if (admin_reservation_search_status == 'currentdeclined') {
+        past_request.style.backgroundColor = "#d2d2d2";
+        waiting_request.style.backgroundColor = "#d2d2d2";
+        declined_request.style.borderBottom = "none"
+        approved_request.style.backgroundColor = "#d2d2d2";
+    } else {
+        past_request.style.backgroundColor = "#d2d2d2";
+        waiting_request.style.backgroundColor = "#d2d2d2";
+        declined_request.style.backgroundColor = "#d2d2d2";
+        approved_request.style.borderBottom = "none"
+    };
+});
+
 function viewAdminRequest(request_id) {
     window.location.href = "/adminpage/request/" + request_id;
 };
