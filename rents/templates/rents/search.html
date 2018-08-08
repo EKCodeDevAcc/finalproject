@@ -12,15 +12,27 @@
                 <p id="given_end_date_value" class="hidden_value">{{ enddate }}</p>
                 <p id="given_age_value" class="hidden_value">{{ age }}</p>
                 <p id="given_sort_value" class="hidden_value">{{ sort }}</p>
+                <p id="given_keytype" class="hidden_value">{{ keytype }}</p>
+                <p id="given_keyword" class="hidden_value">{{ keyword }}</p>
             </div>
             <div id="sort_list">
-                <select id="sort_by" class="sort_item" name="location" onchange="sortBy(this.value)">
+                <select id="sort_by" class="sort_item" name="location" onchange="searchKeyword()">
                     <option value="price_desc">Price ↓</option>
                     <option value="price_asc">Price ↑</option>
                     <option value="size_desc">Size ↓</option>
                     <option value="size_asc">Size ↑</option>
                 </select>
                 <h5 class="sort_item">Sort By:</h5>
+            </div>
+            <div id="search_list">
+                <input id="keyword_button" class="btn btn-success" type="button" value="Search" onclick="searchKeyword()" />
+                <input id="keyword_text" class="search_item" name="username" type="text" placeholder="keyword"/>
+                <select id="keyword_type" class="search_item" name="keyword_type">
+                    <option value="brand">Brand</option>
+                    <option value="model">Model</option>
+                    <option value="type">Type</option>
+                </select>
+                <h5 class="search_item">Search:</h5>
             </div>
             <div class="body_table">
                 <div class="body_table_content">

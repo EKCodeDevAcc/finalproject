@@ -8,6 +8,7 @@ urlpatterns = [
     path("login", views.loginView, name="login"),
     path("logout", views.logoutView, name="logout"),
     path("search/<str:startdate>/<str:enddate>/<str:location>/<str:age>/<str:sort>", views.searchView, name="search"),
+    path("search/<str:startdate>/<str:enddate>/<str:location>/<str:age>/<str:sort>/<str:keytype>/<str:keyword>", views.searchKeywordView, name="search_keyword"),
     path("reservation/<int:carid>/<str:startdate>/<str:enddate>/<str:age>", views.reservationView, name="reservation"),
     path("bookCar", views.bookCar, name="book_car"),
     path("history", views.historyView, name="history"),
@@ -18,5 +19,6 @@ urlpatterns = [
     path("reservationStatus", views.reservationChange, name="reservation_change"),
     path("adminpage/request/<str:time>/<str:status>", views.adminRequestView, name="admin_request"),
     path("adminpage/request/<int:requestid>", views.adminRequestDetailView, name="admin_request_detail"),
-    path("requestApproval", views.requestApproval, name="request_approval")
+    path("requestApproval", views.requestApproval, name="request_approval"),
+    path("contact", views.contactView, name="contact")
 ]

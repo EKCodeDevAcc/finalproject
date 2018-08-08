@@ -56,17 +56,30 @@ function chooseDate() {
 // Set default value of sort by dropdown item depends on sort value.
 $(function() {
     const sort = document.querySelector('#given_sort_value').innerHTML;
+    const keytype = document.querySelector('#given_keytype').innerHTML;
+    const keyword = document.querySelector('#given_keyword').innerHTML;
     $('.sort_item').val(sort);
+    $('.search_item').val(keytype);
+    $('#keyword_text').val(keyword);
 });
 
-// Pass sort value to sort the search result.
-function sortBy(sort_value) {
+// Pass keyword to search cars.
+function searchKeyword() {
+    const keyword_type = document.querySelector('#keyword_type').value;
+    const keyword_text = document.querySelector('#keyword_text').value;
     const start_date = document.querySelector('#given_start_date_value').innerHTML;
     const end_date = document.querySelector('#given_end_date_value').innerHTML;
     const location = document.querySelector('#given_location_value').innerHTML;
     const age = document.querySelector('#given_age_value').innerHTML;
+    const sort_value = document.querySelector('#sort_by').value;
 
-    window.location.href = "/search/" + start_date + "/" + end_date + "/" + location + "/" + age + "/" + sort_value;
+    if (keyword_text == ''){
+        window.location.href = "/search/" + start_date + "/" + end_date + "/" + location + "/" + age + "/" + sort_value;
+    } else if ((keyword_type == '') && (keyword_text != '')) {
+        alert('Please select keyword type!');
+    } else {
+        window.location.href = "/search/" + start_date + "/" + end_date + "/" + location + "/" + age + "/" + sort_value + "/" + keyword_type + "/" + keyword_text;
+    }
 };
 
 // Select a deal to direct to detail views.

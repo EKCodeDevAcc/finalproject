@@ -107,6 +107,66 @@ def searchView(request, startdate, enddate, location, age, sort):
     }
     return render(request, 'rents/search.html', context)
 
+
+
+# Search Result with Keyword View
+def searchKeywordView(request, startdate, enddate, location, age, sort, keytype, keyword):
+    if not request.user.is_authenticated:
+        return render(request, 'rents/index.html', {'message': 'Please login first.'})
+    start_datetime = datetime.strptime(startdate, "%a, %d %b %Y %H:%M:%S %Z")
+    end_datetime = datetime.strptime(enddate, "%a, %d %b %Y %H:%M:%S %Z")
+    reserved_cars = ReservedDate.objects.filter((Q(reserved_date_start_date__range=[start_datetime, end_datetime])|Q(reserved_date_end_date__range=[start_datetime, end_datetime]))&~Q(reserved_date_reservation__reservation_status='Canceled'))
+    reserved_ids = [ids.reserved_date_car.id for ids in reserved_cars]
+
+    # Display all cars or cars from certain location.
+    if location == 'All':
+        no_location_id = []
+    else:
+        no_location = Location.objects.exclude(location_name=location)
+        no_location_id = [ids.id for ids in no_location]
+
+    # Display all cars depends on their brand, model, type
+    if keytype == 'brand':
+        no_keyword = Car.objects.exclude(car_brand__contains=keyword)
+        no_keyword_id = [ids.id for ids in no_keyword]
+    elif keytype == 'model':
+        no_keyword = Car.objects.exclude(car_name__contains=keyword)
+        no_keyword_id = [ids.id for ids in no_keyword]
+    elif keytype == 'type':
+        no_keyword = Car.objects.exclude(car_type__contains=keyword)
+        no_keyword_id = [ids.id for ids in no_keyword]
+
+
+    # Different order depends on order type.
+    if sort == 'price_desc':
+        enable_cars = Car.objects.exclude(Q(id__in=reserved_ids)|Q(car_location__id__in=no_location_id)|Q(id__in=no_keyword_id)).all().order_by('-car_price')
+    elif sort == 'price_asc':
+        enable_cars = Car.objects.exclude(Q(id__in=reserved_ids)|Q(car_location__id__in=no_location_id)|Q(id__in=no_keyword_id)).all().order_by('car_price')
+    elif sort == 'size_desc':
+        enable_cars = Car.objects.exclude(Q(id__in=reserved_ids)|Q(car_location__id__in=no_location_id)|Q(id__in=no_keyword_id)).all().order_by('-car_size')
+    elif sort == 'size_asc':
+        enable_cars = Car.objects.exclude(Q(id__in=reserved_ids)|Q(car_location__id__in=no_location_id)|Q(id__in=no_keyword_id)).all().order_by('car_size')
+
+    # Get the number of cars meet the condition.
+    result_length = len(Car.objects.exclude(Q(id__in=reserved_ids)|Q(car_location__id__in=no_location_id)|Q(id__in=no_keyword_id)).all())
+
+    context = {
+        'cars' : enable_cars,
+        'startdate' : startdate,
+        'enddate' : enddate,
+        'location' : location,
+        'age' : age,
+        'sort' : sort,
+        'keytype' : keytype,
+        'keyword' : keyword,
+        'resultlength' : result_length
+    }
+    return render(request, 'rents/search.html', context)
+
+
+
+
+
 # Reservation View
 def reservationView(request, carid, startdate, enddate, age):
     if not request.user.is_authenticated:
@@ -395,3 +455,12 @@ def requestApproval(request):
                 Request.objects.filter(id=request_id).update(request_approval='Approved')
                 Reservation.objects.filter(id=reservation_id).update(reservation_start_date=startdate_form, reservation_end_date=enddate_form, reservation_drop_off=drop_off)
                 return JsonResponse({'message': 'Approved the request succesfully. The reservation is updated'})
+
+
+# Contact View
+def contactView(request):
+
+    context = {
+        'tests' : 'test'
+    }
+    return render(request, 'rents/contact.html', context)

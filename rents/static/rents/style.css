@@ -125,9 +125,23 @@
     width: 50%;
 }
 
-.sort_item {
+.sort_item, #keyword_button {
     display: block;
     float: right;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+#search_list {
+    display: block;
+    float: right;
+    width: 100%;
+}
+
+.search_item {
+    display: block;
+    float: right;
+    margin-top: 5px;
     margin-left: 10px;
 }
 
