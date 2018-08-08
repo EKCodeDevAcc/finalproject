@@ -6,7 +6,7 @@
         <div id="search_title_full">
             {% for reservationdetail in reservationdetails %}
             <h2>Reservation ID: {{ reservationdetail.id }} / Username: {{ reservationdetail.reservation_user.username }} ({{ reservationdetail.reservation_status }})</h2>
-            <p id="given_date_diff" class="hidden_value">{{ datenum }}</p>
+            <p id="admin_reservation_status" class="hidden_value">{{ reservationdetail.reservation_status }}</p>
         </div>
         <div class="body_table">
             <div class="body_table_content">
@@ -76,6 +76,7 @@
                             <th>Request End Date</th>
                             <th>Request Drop-off</th>
                             <th>Request Status</th>
+                            <th>Link</th>
                         </tr>
                         <tr>
                             <td>{{ reservationrequest.request_status }}</td>
@@ -83,31 +84,18 @@
                             <td>{{ reservationrequest.request_end_date }}</td>
                             <td>{{ reservationrequest.request_drop_off.location_name }}</td>
                             <td>{{ reservationrequest.request_approval }}</td>
+                            <td><a href="/adminpage/request/{{ reservationrequest.id }}">Link</a></td>
                         </tr>
                     </table>
                     {% endfor %}
                 </div>
-                <div id="submit_request_div">
-                    <input class="btn btn-success" type="button" value="Reservation Cancel" onclick="reservationCancel()" />
-                    <input class="btn btn-success" type="button" value="Reservation Change" onclick="reservationChange(`{{ startdate }}`, `{{ enddate }}`, `{{ totalprice }}`)" />
+                <div id="check_reservation_div">
+                    <input class="btn btn-success" type="button" value="Check-in" onclick="reservationCancel()" />
+                </div>
+                <div id="complete_reservation_div">
+                    <input class="btn btn-success" type="button" value="Complete" onclick="reservationChange(`{{ startdate }}`, `{{ enddate }}`, `{{ totalprice }}`)" />
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-<!-- Cancel request modal when users choose to request cancel -->
-<div id="cancelRequestModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <!-- Display how mnay toppings user have to select -->
-        <div id="modal_message">
-            <p>Are you sure you want to request cancellation for this reservation? (Once you click yes, you cannot undo it.)</p>
-        </div>
-        <div class="modal_buttons">
-            <input class="btn btn-success" type="button" value="Yes" style="width:100%;" onclick="cancelModalYes()"/>
-        </div>
-        <div class="modal_buttons" style="">
-            <input class="btn btn-success" type="button" value="No" style="width:100%;" onclick="modalNo()"/>
         </div>
     </div>
 </div>

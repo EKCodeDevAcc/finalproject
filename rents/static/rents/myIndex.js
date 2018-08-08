@@ -225,6 +225,26 @@ function viewAdminReservation(reservation_id) {
 
 // Change color of background of admin reservation page subtitles.
 $(function() {
+    const admin_reservation_status = document.querySelector('#admin_reservation_status').innerHTML;
+
+    console.log('baaam');
+    console.log(admin_reservation_status);
+
+    var check_reservation_div = document.querySelector('#check_reservation_div');
+    var complete_reservation_div = document.querySelector('#complete_reservation_div');
+
+    if (admin_reservation_status == 'Waiting'){
+        complete_reservation_div.style.display = 'none';
+    } else if (admin_reservation_status == 'Checked-in') {
+        check_reservation_div.style.display = 'none';
+    } else {
+        complete_reservation_div.style.display = 'none';
+        check_reservation_div.style.display = 'none';
+    }
+});
+
+// Change color of background of admin reservation page subtitles.
+$(function() {
     const admin_reservation_search_status = document.querySelector('#admin_reservation_search_status').innerHTML;
     var past_request = document.querySelector('#past_request');
     var waiting_request = document.querySelector('#waiting_request');
@@ -258,7 +278,7 @@ function viewAdminRequest(request_id) {
     window.location.href = "/adminpage/request/" + request_id;
 };
 
-// Display
+// Display approve decline button only when request status is waiting
 $(function() {
     const request_approval = document.querySelector('#request_approval').innerHTML;
     var request_approval_div = document.querySelector('#request_approval_div');

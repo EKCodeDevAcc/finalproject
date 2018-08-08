@@ -44,7 +44,7 @@
 }
 
 #menu_table_td {
-    width: 25%;
+    width: 33%;
     display: block;
     float: left;
     text-align: center;
@@ -212,6 +212,11 @@
     border-width: thin;
 }
 
+#check_reservation_div, #complete_reservation_div {
+    display: block;
+    float: left;
+}
+
 /* main content part of menu pages */
 #list_main {
     width: 100%;
@@ -224,146 +229,8 @@
     overflow: auto;
 }
 
-/* main content part of order pages */
-#order_main {
-    width: 70%;
-    height: 700px;
-    display: block;
-    float: left;
-    border-style: solid;
-    border-color: #218838;
-    border-radius: 18px;
-    overflow: auto;
-}
 
-/* my cart part of order pages */
-#order_cart {
-    width: 30%;
-    height: 700px;
-    display: block;
-    float: left;
-    border-style: solid;
-    border-color: #218838;
-    border-radius: 18px;
-    overflow: auto;
-}
-
-/* title of cart */
-#my_order_menu {
-    background-color: #dc3545;
-    border-radius: 15px;
-    margin-bottom: 10px;
-    width: 100%;
-    float: right;
-}
-
-#my_order_td {
-    color: white;
-    font-weight: bold;
-}
-
-/* text of title of cart */
-#order_cart_title {
-    color: white;
-    font-weight: bold;
-    margin-top: 8px;
-    margin-left: 15px;
-    font-size: 25px;
-}
-
-#checkout_button {
-    margin-left: 36%;
-}
-
-/* title of my orders, menu, order pages main content title */
-#order_title, #checkout_title {
-    margin-left: 15px;
-}
-
-/* admin order page order placed title */
-#order_placed_choosen {
-    display: block;
-    float: left;
-    width: 50%;
-}
-
-/* admin order page order delivered title */
-#order_delivered {
-    display: block;
-    float: right;
-    width: 50%;
-    background-color: #e0e0e0;
-}
-
-/* admin order done page order placed title */
-#order_placed {
-    display: block;
-    float: left;
-    width: 50%;
-    background-color: #e0e0e0;
-}
-
-/* admin order done page order delivered title */
-#order_delivered_choosen {
-    display: block;
-    float: right;
-    width: 50%;
-}
-
-/* text of order placed title */
-#order_placed_text {
-    margin-left: 15px;
-}
-
-/* text of order delivered title */
-#order_delivered_text {
-    margin-left: 15px;
-}
-
-/* subtitle of menu types */
-.order_type_list {
-    width: 90%;
-    display: block;
-    float: left;
-    margin-left: 15px;
-    margin-top: 15px;
-    margin-bottom: 10px;
-}
-
-/* item contents of each items in menu,order */
-.order_item {
-    width: 30%;
-    display: block;
-    float: left;
-    margin-left: 15px;
-    margin-top: 15px;
-    margin-bottom: 10px;
-}
-
-/* cart list content left side */
-.my_item_list_left {
-    display: block;
-    float: left;
-    width: 70%;
-    margin-left: 15px;
-}
-
-/* cart list content right side */
-.my_item_list_right {
-    display: block;
-    float: right;
-    width: 20%;
-    margin-left: 15px;
-}
-
-/* cart remove button */
-.my_item_remove {
-    display: block;
-    width: 90%;
-    margin-left: 15px;
-}
-
-/* modals for regular pizza, sicilian pizza, subs page, and order details */
+/* modals */
 .modal {
     display: none;
     position: fixed;
@@ -392,51 +259,4 @@
     float: right;
     font-size: 28px;
     font-weight: bold;
-}
-
-/* number of toppings message in modal */
-#topping_message {
-    margin-bottom: 20px;
-}
-
-/* total cost text in order detail modal */
-.total_cost {
-    float: right;
-    margin-right: 80px;
-}
-
-#checkout_main {
-    width: 100%;
-    height: 700px;
-    display: block;
-    float: left;
-    border-style: solid;
-    border-color: #218838;
-    border-radius: 18px;
-}
-
-.checkout_item_left {
-    width: 55%;
-    display: block;
-    float: left;
-    margin-left: 15px;
-    margin-top: 15px;
-}
-
-.checkout_item_right {
-    width: 15%;
-    display: block;
-    float: left;
-    margin-left: 15px;
-    margin-top: 15px;
-}
-
-#total_price {
-    text-align: center;
-    margin-top: 50px;
-}
-
-/* order table */
-#all_orders {
-    width: 100%;
 }
