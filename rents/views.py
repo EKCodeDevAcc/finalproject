@@ -197,6 +197,7 @@ def historyDetailView(request, reservationid, userid):
     # To check requested user is the owner of the reservation.
     reservation_detail = Reservation.objects.filter(Q(id=reservationid)&Q(reservation_user__id=request.user.id)).all()
     reservation_length = len(reservation_detail)
+    location = Location.objects.all()
     if not request.user.is_authenticated:
         return render(request, 'rents/login.html', {'message': 'Please login first.'})
     elif not userid == request.user.id:
@@ -207,7 +208,8 @@ def historyDetailView(request, reservationid, userid):
         reservation_request = Request.objects.filter(request_reservation__id=reservationid).all()
         context = {
             'reservationdetails' : reservation_detail,
-            'reservationrequests' : reservation_request
+            'reservationrequests' : reservation_request,
+            'locations' : location
         }
         return render(request, 'rents/history_detail.html', context)
 

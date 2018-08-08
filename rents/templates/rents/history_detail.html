@@ -89,7 +89,7 @@
                 </div>
                 <div id="submit_request_div">
                     <input class="btn btn-success" type="button" value="Reservation Cancel" onclick="reservationCancel()" />
-                    <input class="btn btn-success" type="button" value="Reservation Change" onclick="reservationChange(`{{ startdate }}`, `{{ enddate }}`, `{{ totalprice }}`)" />
+                    <input class="btn btn-success" type="button" value="Reservation Change" onclick="reservationChange()" />
                 </div>
             </div>
         </div>
@@ -99,7 +99,6 @@
 <div id="cancelRequestModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <!-- Display how mnay toppings user have to select -->
         <div id="modal_message">
             <p>Are you sure you want to request cancellation for this reservation? (Once you click yes, you cannot undo it.)</p>
         </div>
@@ -107,8 +106,46 @@
             <input class="btn btn-success" type="button" value="Yes" style="width:100%;" onclick="cancelModalYes()"/>
         </div>
         <div class="modal_buttons" style="">
-            <input class="btn btn-success" type="button" value="No" style="width:100%;" onclick="modalNo()"/>
+            <input class="btn btn-success" type="button" value="No" style="width:100%;" onclick="cancelModalNo()"/>
         </div>
     </div>
 </div>
+<!-- Change request modal when users choose to request cancel -->
+<!--<div id="changeRequestModal" class="modal">-->
+<!--    <div class="modal-content">-->
+<!--        <span class="close">&times;</span>-->
+<!--        <div class="modal_half">-->
+<!--            <table class="table">-->
+<!--                <tr>-->
+<!--                    <td>-->
+<!--                        Location:-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        <select id="location_item" name="location">-->
+<!--                        {% for location in locations %}-->
+<!--                        <option value="{{ location.location_name }}">{{ location.location_name }}</option>-->
+<!--                        {% endfor %}-->
+<!--                        </select>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                <div id="datebox">-->
+<!--                    <td class="datepick_td">Date: </td>-->
+<!--                    <td class="datepick_td"><input id="datepick" type="text" name="modaldaterange"/></td>-->
+<!--                    <td><input id="choose_date" class="btn btn-success" type="button" value="Select" onclick="chooseDate()" /></td>-->
+<!--                </div>-->
+<!--                </tr>-->
+<!--            </table>-->
+<!--        </div>-->
+<!--        <div id="modal_message">-->
+<!--            <p>Are you sure you want to request to change this reservation? (Once you click yes, you cannot undo it.)</p>-->
+<!--        </div>-->
+<!--        <div class="modal_buttons">-->
+<!--            <input class="btn btn-success" type="button" value="Yes" style="width:100%;" onclick="changeModalYes()"/>-->
+<!--        </div>-->
+<!--        <div class="modal_buttons" style="">-->
+<!--            <input class="btn btn-success" type="button" value="No" style="width:100%;" onclick="changeModalNo()"/>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 {% endblock %}

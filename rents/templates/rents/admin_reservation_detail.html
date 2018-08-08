@@ -90,10 +90,10 @@
                     {% endfor %}
                 </div>
                 <div id="check_reservation_div">
-                    <input class="btn btn-success" type="button" value="Check-in" onclick="reservationCancel()" />
+                    <input class="btn btn-success" type="button" value="Check-in" onclick="reservationCheck(`{{ reservationdetail.id }}`)" />
                 </div>
                 <div id="complete_reservation_div">
-                    <input class="btn btn-success" type="button" value="Complete" onclick="reservationChange(`{{ startdate }}`, `{{ enddate }}`, `{{ totalprice }}`)" />
+                    <input class="btn btn-success" type="button" value="Complete" onclick="reservationComplete(`{{ reservationdetail.id }}`)" />
                 </div>
             </div>
         </div>
