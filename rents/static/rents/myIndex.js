@@ -311,6 +311,11 @@ function viewAdminReservation(reservation_id) {
 $(function() {
     const admin_reservation_status = document.querySelector('#admin_reservation_status').innerHTML;
 
+
+    console.log('WHEREWHERE');
+    console.log(admin_reservation_status);
+
+
     var check_reservation_div = document.querySelector('#check_reservation_div');
     var complete_reservation_div = document.querySelector('#complete_reservation_div');
 
@@ -354,6 +359,24 @@ $(function() {
         approved_request.style.borderBottom = "none"
     };
 });
+
+// Change waiting reservation to checked-in reservation
+function reservationChange(status) {
+    var reservation_id = document.querySelector('#admin_reservation_id').innerHTML;
+    console.log(reservation_id);
+    console.log(status);
+    $.ajax({
+        url: '/reservationStatus',
+        data: {
+            reservationid: reservation_id,
+            reservationstatus: status
+        },
+        success: function(data){
+            alert(data.message);
+            window.location.reload();
+        }
+    });
+};
 
 function viewAdminRequest(request_id) {
     window.location.href = "/adminpage/request/" + request_id;

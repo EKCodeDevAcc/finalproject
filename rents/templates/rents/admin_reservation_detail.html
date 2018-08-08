@@ -7,6 +7,7 @@
             {% for reservationdetail in reservationdetails %}
             <h2>Reservation ID: {{ reservationdetail.id }} / Username: {{ reservationdetail.reservation_user.username }} ({{ reservationdetail.reservation_status }})</h2>
             <p id="admin_reservation_status" class="hidden_value">{{ reservationdetail.reservation_status }}</p>
+            <p id="admin_reservation_id" class="hidden_value">{{ reservationdetail.id }}</p>
         </div>
         <div class="body_table">
             <div class="body_table_content">
@@ -90,10 +91,10 @@
                     {% endfor %}
                 </div>
                 <div id="check_reservation_div">
-                    <input class="btn btn-success" type="button" value="Check-in" onclick="reservationCheck(`{{ reservationdetail.id }}`)" />
+                    <input class="btn btn-success" type="button" value="Check-in" onclick="reservationChange(`check`)" />
                 </div>
                 <div id="complete_reservation_div">
-                    <input class="btn btn-success" type="button" value="Complete" onclick="reservationComplete(`{{ reservationdetail.id }}`)" />
+                    <input class="btn btn-success" type="button" value="Complete" onclick="reservationChange(`complete`)" />
                 </div>
             </div>
         </div>

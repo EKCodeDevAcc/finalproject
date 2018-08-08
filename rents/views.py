@@ -288,6 +288,31 @@ def adminReservationDetailView(request, reservationid):
         }
         return render(request, 'rents/admin_reservation_detail.html', context)
 
+# Change reservation status.
+def reservationChange(request):
+    reservation_id = request.GET.get('reservationid')
+    reservation_status = request.GET.get('reservationstatus')
+
+    reservation_detail = Reservation.objects.filter(id=reservation_id).all()
+    new_location = reservation_detail[0].reservation_drop_off
+    reservation_car_id = reservation_detail[0].reservation_car.id
+
+    print('YAYAYA')
+    print(reservation_id)
+    print(reservation_status)
+    print(new_location)
+    print(reservation_car_id)
+
+    if (reservation_status=='check'):
+        Reservation.objects.filter(id=reservation_id).update(reservation_status='Checked-in')
+        return JsonResponse({'message': 'The status of the reservation has been changed to checked-in.'})
+    elif (reservation_status=='complete'):
+        Reservation.objects.filter(id=reservation_id).update(reservation_status='Complete')
+        Car.objects.filter(id=reservation_car_id).update(car_location=new_location)
+        return JsonResponse({'message': 'The status of the reservation has been changed to complete.'})
+
+
+
 # Admin page for check reservations
 # Limited to superuser
 @user_passes_test(lambda user: user.is_superuser)
