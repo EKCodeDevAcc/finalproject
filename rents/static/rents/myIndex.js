@@ -27,17 +27,6 @@ $(function() {
         start_date = start_obj.toUTCString();
         end_date = end_obj.toUTCString();
     });
-
-    $('input[name="modaldaterange"]').daterangepicker({
-        opens: 'left'
-    }, function(start, end, label) {
-        const start_string = start.format('YYYY-MM-DD');
-        const end_string = end.format('YYYY-MM-DD');
-        var start_obj = new Date(start_string);
-        var end_obj = new Date(end_string);
-        start_date = start_obj.toUTCString();
-        end_date = end_obj.toUTCString();
-    });
 });
 
 // Pass location, start date, end date information.
@@ -63,6 +52,7 @@ $(function() {
     $('#keyword_text').val(keyword);
 });
 
+
 // Pass keyword to search cars.
 function searchKeyword() {
     const keyword_type = document.querySelector('#keyword_type').value;
@@ -81,6 +71,7 @@ function searchKeyword() {
         window.location.href = "/search/" + start_date + "/" + end_date + "/" + location + "/" + age + "/" + sort_value + "/" + keyword_type + "/" + keyword_text;
     }
 };
+
 
 // Select a deal to direct to detail views.
 function viewDeal(car_id, start_date, end_date, age) {
@@ -159,13 +150,17 @@ function viewReservation(reservation_id, user_id) {
 // Only display when there is a request for the reservation.
 $(function() {
     const request_status = document.querySelector('#reservation_request_status').innerHTML;
+    const reservation_status = document.querySelector('#reservation_status').innerHTML;
     var request_div = document.querySelector('#request_div');
     var submit_request_div = document.querySelector('#submit_request_div');
 
-    if (request_status == 'No') {
-        request_div.style.display = "none";
-    } else {
+    if (request_status == 'Yes') {
         submit_request_div.style.display = "none";
+    } else if ((request_status == 'No') && (reservation_status == 'Complete')) {
+        request_div.style.display = "none";
+        submit_request_div.style.display = "none";
+    } else {
+        request_div.style.display = "none";
     };
 });
 
@@ -211,79 +206,6 @@ function cancelModalYes(reservation_id) {
     });
 };
 
-// // When users change request cancellation button, pop out the modal.
-// function reservationChange() {
-//     var modal = document.getElementById('changeRequestModal');
-//     // Get the <span> element that closes the modal
-//     var span = document.getElementsByClassName("close")[1];
-//     modal.style.display = "block";
-//     // When the user clicks on <span> (x), close the modal
-//     span.onclick = function() {
-//         modal.style.display = "none";
-//     }
-//     // When the user clicks anywhere outside of the modal, close it
-//     window.onclick = function(event) {
-//         if (event.target == modal) {
-//             modal.style.display = "none";
-//         }
-//     }
-// };
-
-
-// // When users click No button in change modal.
-// function changeModalNo() {
-//     var modal = document.getElementById('changeRequestModal');
-//     modal.style.display = "none";
-// };
-
-// function chooseDate() {
-//     const location = document.querySelector('#location_item').value;
-
-//     // If user does not select date, alert the message.
-//     if (start_date == undefined || end_date == undefined) {
-//         alert("Please select desired date.");
-//     } else {
-//         window.location.href = "/search/" + start_date + "/" + end_date + "/" + location + "/" + age + "/price_desc";
-//     }
-// };
-
-// // When users click Yes button in cancel reservation modal.
-// function changeModalYes(reservation_id) {
-//     var reservation_id = document.querySelector('#reservation_id').innerHTML;
-//     var reservation_drop_off = document.querySelector('#reservation_drop_off').innerHTML;
-
-//     var reservation_start_date = document.querySelector('#reservation_start_date').innerHTML;
-//     var reservation_end_date = document.querySelector('#reservation_end_date').innerHTML;
-
-//     var old_start_obj = new Date(reservation_start_date);
-//     var old_end_obj = new Date(reservation_end_date);
-//     var new_start_obj = new Date(start_date);
-//     var new_old_obj = new Date(end_date);
-
-//     const location = document.querySelector('#location_item').value;
-
-//     // If user does not select date, alert the message.
-//     if (start_date == undefined || end_date == undefined) {
-//         alert("Please select desired date.");
-//     } else if ((Date(reservation_start_date)==Date(start_date))&&(Date(reservation_end_date)==Date(end_date))){
-//         alert('not good');
-//     } else {
-//         alert('good');
-//     }
-
-//     $.ajax({
-//         url: '/requestCancellation',
-//         data: {
-//             reservationid: reservation_id,
-//             reservationdropoff: reservation_drop_off
-//         },
-//         success: function(data){
-//             alert("Your cancellation request has been submitted!");
-//             window.location.reload();
-//         }
-//     });
-// };
-
 // Change color of background of admin reservation page subtitles.
 $(function() {
     const admin_reservation_search_status = document.querySelector('#admin_reservation_search_status').innerHTML;
@@ -323,12 +245,6 @@ function viewAdminReservation(reservation_id) {
 // Change color of background of admin reservation page subtitles.
 $(function() {
     const admin_reservation_status = document.querySelector('#admin_reservation_status').innerHTML;
-
-
-    console.log('WHEREWHERE');
-    console.log(admin_reservation_status);
-
-
     var check_reservation_div = document.querySelector('#check_reservation_div');
     var complete_reservation_div = document.querySelector('#complete_reservation_div');
 

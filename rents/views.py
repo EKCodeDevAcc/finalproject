@@ -136,7 +136,6 @@ def searchKeywordView(request, startdate, enddate, location, age, sort, keytype,
         no_keyword = Car.objects.exclude(car_type__contains=keyword)
         no_keyword_id = [ids.id for ids in no_keyword]
 
-
     # Different order depends on order type.
     if sort == 'price_desc':
         enable_cars = Car.objects.exclude(Q(id__in=reserved_ids)|Q(car_location__id__in=no_location_id)|Q(id__in=no_keyword_id)).all().order_by('-car_price')
@@ -162,10 +161,6 @@ def searchKeywordView(request, startdate, enddate, location, age, sort, keytype,
         'resultlength' : result_length
     }
     return render(request, 'rents/search.html', context)
-
-
-
-
 
 # Reservation View
 def reservationView(request, carid, startdate, enddate, age):
@@ -297,7 +292,6 @@ def requestCancellation(request):
 
     return JsonResponse({'order_stats': 'Complete'})
 
-
 # Admin page for check reservations
 # Limited to superuser
 @user_passes_test(lambda user: user.is_superuser)
@@ -357,12 +351,6 @@ def reservationChange(request):
     new_location = reservation_detail[0].reservation_drop_off
     reservation_car_id = reservation_detail[0].reservation_car.id
 
-    print('YAYAYA')
-    print(reservation_id)
-    print(reservation_status)
-    print(new_location)
-    print(reservation_car_id)
-
     if (reservation_status=='check'):
         Reservation.objects.filter(id=reservation_id).update(reservation_status='Checked-in')
         return JsonResponse({'message': 'The status of the reservation has been changed to checked-in.'})
@@ -370,7 +358,6 @@ def reservationChange(request):
         Reservation.objects.filter(id=reservation_id).update(reservation_status='Complete')
         Car.objects.filter(id=reservation_car_id).update(car_location=new_location)
         return JsonResponse({'message': 'The status of the reservation has been changed to complete.'})
-
 
 
 # Admin page for check reservations
@@ -442,24 +429,6 @@ def requestApproval(request):
         Request.objects.filter(id=request_id).update(request_approval='Declined')
         return JsonResponse({'message': 'Declined the request succesfully.'})
     else:
-        # Existed reserved date
-        if request_detail[0].request_status == 'Cancellation':
-            Request.objects.filter(id=request_id).update(request_approval='Approved')
-            Reservation.objects.filter(id=reservation_id).update(reservation_status='Canceled')
-            return JsonResponse({'message': 'Approved the request succesfully. The reservation is canceled.'})
-        else:
-            if reserved_length > 1:
-                Request.objects.filter(id=request_id).update(request_approval='Declined')
-                return JsonResponse({'message': 'The request cannot be approved due to duplication, so it is declined.'})
-            else:
-                Request.objects.filter(id=request_id).update(request_approval='Approved')
-                Reservation.objects.filter(id=reservation_id).update(reservation_start_date=startdate_form, reservation_end_date=enddate_form, reservation_drop_off=drop_off)
-                return JsonResponse({'message': 'Approved the request succesfully. The reservation is updated'})
-
-# Contact View
-def contactView(request):
-
-    context = {
-        'tests' : 'test'
-    }
-    return render(request, 'rents/contact.html', context)
+        Request.objects.filter(id=request_id).update(request_approval='Approved')
+        Reservation.objects.filter(id=reservation_id).update(reservation_status='Canceled')
+        return JsonResponse({'message': 'Approved the request succesfully. The reservation is canceled.'})

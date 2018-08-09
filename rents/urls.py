@@ -19,6 +19,5 @@ urlpatterns = [
     path("reservationStatus", views.reservationChange, name="reservation_change"),
     path("adminpage/request/<str:time>/<str:status>", views.adminRequestView, name="admin_request"),
     path("adminpage/request/<int:requestid>", views.adminRequestDetailView, name="admin_request_detail"),
-    path("requestApproval", views.requestApproval, name="request_approval"),
-    path("contact", views.contactView, name="contact")
+    path("requestApproval", views.requestApproval, name="request_approval")
 ]
