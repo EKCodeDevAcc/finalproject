@@ -456,7 +456,6 @@ def requestApproval(request):
                 Reservation.objects.filter(id=reservation_id).update(reservation_start_date=startdate_form, reservation_end_date=enddate_form, reservation_drop_off=drop_off)
                 return JsonResponse({'message': 'Approved the request succesfully. The reservation is updated'})
 
-
 # Contact View
 def contactView(request):
 

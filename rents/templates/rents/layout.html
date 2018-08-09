@@ -29,5 +29,39 @@
                 {% endblock %}
             {% endif %}
         </div>
+        <script>
+        function myMap() {
+            var myCenter = new google.maps.LatLng(42.3763,-71.1166);
+            var boston = new google.maps.LatLng(42.3501482,-71.1317221);
+            var cambridge = new google.maps.LatLng(42.3638703,-71.1010809);
+            var medford = new google.maps.LatLng(42.4022007,-71.0981712);
+            var mapCanvas = document.getElementById("map");
+            // var mapOptions = {center: myCenter, zoom: 13};
+            // var map = new google.maps.Map(mapCanvas, mapOptions);
+            // var marker = new google.maps.Marker({position:boston});
+            // marker.setMap(map);
+
+            var mapProp= {
+                center: myCenter,
+                zoom: 13,
+            };
+            var mapOptions=new google.maps.Map(document.getElementById("googleMap"), mapProp);
+            var map = new google.maps.Map(document.getElementById("googleMap"), mapOptions);
+            var markerBoston = new google.maps.Marker({position:boston});
+            var markerCambridge = new google.maps.Marker({position:cambridge});
+            var markerMedford = new google.maps.Marker({position:medford});
+            markerBoston.setMap(map);
+            //markerCambridge.setMap(map);
+            //markerMedford.setMap(map);
+
+            // var mapProp= {
+            //     center:new google.maps.LatLng(42.3763,-71.1166),
+            //     zoom:13,
+            // };
+            // var map=new google.maps.Map(document.getElementById("googleMap"), mapProp);
+        };
+        google.maps.event.addDomListener(window, "load", myMap);
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-E_3niAlTypjYGO_e12ddDtBTOaPEHKk&callback=myMap"></script>
     </body>
 </html>
